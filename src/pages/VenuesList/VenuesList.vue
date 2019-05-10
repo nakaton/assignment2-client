@@ -80,7 +80,7 @@
                                         // debugger
                                         // alert(response.data.category.categoryName)
                                         this.venues[i].categoryName = response.data.category.categoryName;
-                                        alert(this.venues[i].categoryName)
+                                        // alert(this.venues[i].categoryName)
                                     }, function (error) {
                                         this.error = error;
                                         this.errorFlg = true;
