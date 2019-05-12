@@ -13,7 +13,7 @@ import {
 import {BASE_URL} from '../../config/env'
 
 export default {
-    async getVenues({commit}) {
+    async getVenues({commit}, params) {
         const result = await reqVenues()
         for (let i = 0; i < result.length; i++) {
             // Get photo's link
