@@ -33,7 +33,7 @@
         name: "Search",
         methods:{
             onSubmit: function () {
-                this.$parent.getVenuesList();
+                this.$parent.getVenues();
             }
         }
     }

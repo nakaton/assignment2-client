@@ -10,18 +10,39 @@
                             <img :src='item.src' class="thumbnail"/>
                         </div>
                         <div class="info title">
-                            <span>venueName:{{item.venueName}}</span>
-                        </div>
-                        <div class="info title">
-                            <span>category:{{item.categoryName}}</span>
-                        </div>
-                        <div>
-                            <span>city:{{item.city}}</span>
-                            <span>meanStarRating:{{item.meanStarRating}}</span>
-                            <span>modeCostRating:{{item.modeCostRating}}</span>
+                            <span>{{item.venueName}} | {{item.city}}</span>
                         </div>
                         <div class="info description">
-                            shortDescription:{{item.shortDescription}}
+                            <span>Category : {{item.categoryName}}</span>
+                        </div>
+                        <div class="info description">
+                            Description : {{item.shortDescription}}
+                        </div>
+                        <div>
+                            <div class="info description star-div">Star Rate:</div>
+                            <div class="star-div" v-for="star in item.meanStar">
+                                <div>
+                                    <img class="star" v-if="star === 1" src="src/components/Star/images/star24_on@2x.png"/>
+                                </div>
+                                <div>
+                                    <img class="star" v-if="star === 0.5" src="src/components/Star/images/star24_half@2x.png"/>
+                                </div>
+                                <div>
+                                    <img class="star" v-if="star === 0" src="src/components/Star/images/star24_off@2x.png"/>
+                                </div>
+                            </div>
+                            <div class="info description star-div">&nbsp&nbsp&nbsp&nbsp&nbspCost Rate:</div>
+                            <div class="star-div" v-for="star in item.modeCost">
+                                <div>
+                                    <img class="star" v-if="star === 1" src="src/components/Star/images/star24_on@2x.png"/>
+                                </div>
+                                <div>
+                                    <img class="star" v-if="star === 0.5" src="src/components/Star/images/star24_half@2x.png"/>
+                                </div>
+                                <div>
+                                    <img class="star" v-if="star === 0" src="src/components/Star/images/star24_off@2x.png"/>
+                                </div>
+                            </div>
                         </div>
                         <!--<span>venueId:{{item.venueId}}</span><br>-->
                         <!--<span>venueName:{{item.venueName}}</span>-->
@@ -43,8 +64,8 @@
 
 <script>
     import Search from '../../components/Search/Search.vue'
-
-    const env = require('../../../config/env');
+    import {mapActions} from 'vuex'
+    import {mapState} from 'vuex'
 
     export default {
         name: "VenuesList",
@@ -52,50 +73,16 @@
             return{
                 error: "",
                 errorFlg: false,
-                venues: [],
-                categoryName: ""
             }
         },
-        mounted: function(){
-            // this.getVenuesList();
+        mounted (){
+            this.getVenues()
+        },
+        computed:{
+            ...mapState(["venues"])
         },
         methods: {
-            getVenuesList: function () {
-                this.$http.get(env.BASE_URL + '/venues')
-                    .then(function (response) {
-                        this.venues = response.data;
-
-                        for (let i = 0; i < this.venues.length; i++){
-                            if (this.venues[i].primaryPhoto){
-                                this.venues[i].src = env.BASE_URL + '/venues/' + this.venues[i].venueId
-                                    + '/photos/' + this.venues[i].primaryPhoto;
-                                // alert(this.venues[i].src)
-                            }else{
-                                this.venues[i].src = 'src/pages/VenuesList/images/default.png'
-                            }
-                            this.venues[i].categoryName = "";
-                            if(this.venues[i].venueId){
-                                this.$http.get(env.BASE_URL + '/venues/' + this.venues[i].venueId)
-                                    .then(function (response) {
-                                        // debugger
-                                        // alert(response.data.category.categoryName)
-                                        this.venues[i].categoryName = response.data.category.categoryName;
-                                        // alert(this.venues[i].categoryName)
-                                    }, function (error) {
-                                        this.error = error;
-                                        this.errorFlg = true;
-                                    });
-                                // this.venues[i].categoryName = this.categoryName;
-                                alert(this.venues[i].categoryName) // 异步调用的同步性问题
-                            }else{
-                                this.venues[i].categoryName = "";
-                            }
-                        }
-                    }, function (error) {
-                        this.error = error;
-                        this.errorFlg = true;
-                    });
-            }
+            ...mapActions(['getVenues'])
         },
         components:{
             Search
@@ -104,6 +91,17 @@
 </script>
 
 <style scoped>
+    .grid {
+        display: grid;
+        grid-gap: 20px;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        /*grid-template-rows: 25% 100px auto;*/
+        margin: 30px;
+
+        /*grid-template-columns: 100px 50px 100px;*/
+        /*grid-template-rows: 80px auto 80px;*/
+        /*grid-gap: 10px 15px;*/
+    }
     .listing-summaries-wrapper {
         overflow: hidden;
     }
@@ -120,14 +118,15 @@
     }
 
     .thumbnail {
-        width: 350px;
-        height: 250px;
+        width: 280px;
+        height: 200px;
         background-size: cover;
         background-position: 50%;
     }
 
     .wrapper {
-        max-width: 350px;
+        /*display: grid;*/
+        max-width: 280px;
         display: block;
     }
     .info.title {
@@ -149,6 +148,18 @@
     .info.description {
         font-size: 14px;
         line-height: 18px;
+    }
+
+    .star {
+        float: left;
+        width: 13px;
+        height: 13px;
+        /*display: flex;*/
+        /*flex-direction: row;*/
+    }
+    .star-div {
+        display: inline-block;
+        float: left;
     }
 
 </style>
