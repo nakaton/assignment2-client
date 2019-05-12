@@ -91,25 +91,15 @@
 </script>
 
 <style scoped>
-    .grid {
-        display: grid;
-        grid-gap: 20px;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        /*grid-template-rows: 25% 100px auto;*/
-        margin: 30px;
-
-        /*grid-template-columns: 100px 50px 100px;*/
-        /*grid-template-rows: 80px auto 80px;*/
-        /*grid-gap: 10px 15px;*/
-    }
     .listing-summaries-wrapper {
         overflow: hidden;
     }
     .listing-summaries {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        transition: transform .5s;
+        display: grid;
+        grid-gap: 30px;
+        grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+        grid-template-rows: 260px 260px 260px 260px;
+        margin: 10px;
         padding: 0 25px;
     }
     .listing-summary {
@@ -118,15 +108,14 @@
     }
 
     .thumbnail {
-        width: 280px;
-        height: 200px;
+        width: 270px;
+        height: 195px;
         background-size: cover;
         background-position: 50%;
     }
 
     .wrapper {
-        /*display: grid;*/
-        max-width: 280px;
+        max-width: 270px;
         display: block;
     }
     .info.title {
