@@ -1,30 +1,42 @@
 <template>
-    <div>
+    <div class="pagination">
         <el-pagination
+            @current-change="handleCurrentChange"
             background
+            :page-size="this.pageSize"
             layout="prev, pager, next"
-            :total="1000">
+            :total="this.venues.length">
         </el-pagination>
     </div>
 </template>
 
 <script>
     import {mapState} from 'vuex'
+    import {
+        CURRENT_PAGE_VENUES
+    } from '../../store/mutations-types'
 
     export default {
         name: "Pagination",
-        data (){
-            return{
-                number: ""
+        methods: {
+            handleCurrentChange(val) {
+                // console.log(`Current Page No.: ${val}`);
+                // console.log("groupPageVenues: " + this.groupPageVenues[val - 1])
+                // console.log("currentPageVenues: " + this.currentPageVenues)
+                this.$store.commit(CURRENT_PAGE_VENUES, {currentPageVenues: this.groupPageVenues[val - 1]});
             }
         },
-        methods: {
-            onClick: function () {
-
-            }
+        computed: {
+            ...mapState(["venues"]),
+            ...mapState(["pageSize"]),
+            ...mapState(["groupPageVenues"]),
+            ...mapState(["currentPageVenues"])
         }
     }
 </script>
 
 <style scoped>
+    .pagination {
+        text-align:center;
+    }
 </style>

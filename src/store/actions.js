@@ -7,13 +7,16 @@ import {
 } from '../api/api'
 
 import {
-    RECEIVE_VENUES
+    RECEIVE_VENUES,
+    GROUP_PAGE_VENUES,
+    CURRENT_PAGE_VENUES
 } from './mutations-types'
 
 import {BASE_URL} from '../../config/env'
 
 export default {
     async getVenues({commit}, params) {
+        const pageSize = params.pageSize
         const result = await reqVenues(params)
         for (let i = 0; i < result.length; i++) {
             // Get photo's link
@@ -34,7 +37,20 @@ export default {
             result[i].meanStar = starCount(result[i].meanStarRating)
             result[i].modeCost = starCount(result[i].modeCostRating)
         }
+
+        let pageNum = Math.ceil(result.length / pageSize) || 1;
+        console.log("pageNum: " + pageNum)
+
+        let groupPageVenues = []
+
+        for (let i = 0; i < pageNum; i++) {
+            //Slice data into group for each page
+            groupPageVenues[i] = result.slice(pageSize * i, pageSize * (i + 1))
+        }
+
         commit(RECEIVE_VENUES, {venues: result})
+        commit(GROUP_PAGE_VENUES, {groupPageVenues: groupPageVenues})
+        commit(CURRENT_PAGE_VENUES, {currentPageVenues: groupPageVenues[0]})
     }
 }
 

@@ -3,7 +3,7 @@
         <Search/>
         <div class="listing-summaries-wrapper">
             <div class="listing-summaries" style="transform: translateX(0px)">
-                <div class="listing-summary" v-for="item in this.venues">
+                <div class="listing-summary" v-for="item in this.currentPageVenues">
                     <div class="wrapper">
                         <div id="photo" class="thumbnail">
                             <!--<img src='./images/venue_back.svg'/>-->
@@ -64,13 +64,16 @@
             return{
                 error: "",
                 errorFlg: false,
+                showVenues: []
             }
         },
         mounted (){
-            this.getVenues()
+            this.getVenues({pageSize: this.pageSize});
         },
         computed:{
-            ...mapState(["venues"])
+            ...mapState(["venues"]),
+            ...mapState(["pageSize"]),
+            ...mapState(["currentPageVenues"])
         },
         methods: {
             ...mapActions(['getVenues'])
@@ -90,7 +93,7 @@
         display: grid;
         grid-gap: 30px;
         grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-        grid-template-rows: 260px 260px 260px 260px;
+        /*grid-template-rows: 260px 260px 260px 260px;*/
         margin: 10px;
         padding: 0 25px;
     }

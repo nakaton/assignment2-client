@@ -58,11 +58,13 @@
                 if (this.q){
                     params.q = this.q
                 }
+                params.pageSize = this.pageSize
                 this.$parent.getVenues(params);
             }
         },
         computed:{
-            ...mapState(["login"])
+            ...mapState(["login"]),
+            ...mapState(["pageSize"])
         }
     }
 </script>
