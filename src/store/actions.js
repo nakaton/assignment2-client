@@ -14,7 +14,7 @@ import {BASE_URL} from '../../config/env'
 
 export default {
     async getVenues({commit}, params) {
-        const result = await reqVenues()
+        const result = await reqVenues(params)
         for (let i = 0; i < result.length; i++) {
             // Get photo's link
             if (result[i].primaryPhoto) {

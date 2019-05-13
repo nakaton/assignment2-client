@@ -1,4 +1,4 @@
 export default {
-    login: true,
+    login: false,
     venues: []
 }

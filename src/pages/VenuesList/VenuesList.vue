@@ -44,26 +44,17 @@
                                 </div>
                             </div>
                         </div>
-                        <!--<span>venueId:{{item.venueId}}</span><br>-->
-                        <!--<span>venueName:{{item.venueName}}</span>-->
-                        <!--<span>categoryId:{{item.categoryId}}</span>-->
-                        <!--<span>city:{{item.city}}</span>-->
-                        <!--<span>shortDescription:{{item.shortDescription}}</span>-->
-                        <!--<span>latitude:{{item.latitude}}</span>-->
-                        <!--<span>longitude:{{item.longitude}}</span>-->
-                        <!--<span>meanStarRating:{{item.meanStarRating}}</span>-->
-                        <!--<span>modeCostRating:{{item.modeCostRating}}</span>-->
-                        <!--<span>primaryPhoto:{{item.primaryPhoto}}</span>-->
-                        <!--<span>distance{{item.distance}}</span>-->
                     </div>
                 </div>
             </div>
         </div>
+        <Pagination/>
     </div>
 </template>
 
 <script>
     import Search from '../../components/Search/Search.vue'
+    import Pagination from '../../components/Pagination/Pagination.vue'
     import {mapActions} from 'vuex'
     import {mapState} from 'vuex'
 
@@ -85,7 +76,8 @@
             ...mapActions(['getVenues'])
         },
         components:{
-            Search
+            Search,
+            Pagination
         }
     }
 </script>
