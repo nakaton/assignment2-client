@@ -97,6 +97,7 @@
         height: 195px;
         background-size: cover;
         background-position: 50%;
+        border-radius: 4px
     }
 
     .wrapper {
