@@ -9,13 +9,16 @@ import {
 import {
     RECEIVE_VENUES,
     GROUP_PAGE_VENUES,
-    CURRENT_PAGE_VENUES
+    CURRENT_PAGE_VENUES,
+    PAGE_LOADING
 } from './mutations-types'
 
 import {BASE_URL} from '../../config/env'
 
 export default {
     async getVenues({commit}, params) {
+        commit(PAGE_LOADING, {pageLoading: true})
+
         const pageSize = params.pageSize
         const result = await reqVenues(params)
         for (let i = 0; i < result.length; i++) {
@@ -32,10 +35,6 @@ export default {
                 let venueDetail = await reqVenueDetail(result[i].venueId);
                 result[i].categoryName = venueDetail.category.categoryName;
             }
-
-            // Calculate star count
-            result[i].meanStar = starCount(result[i].meanStarRating)
-            result[i].modeCost = starCount(result[i].modeCostRating)
         }
 
         let pageNum = Math.ceil(result.length / pageSize) || 1;
@@ -51,23 +50,6 @@ export default {
         commit(RECEIVE_VENUES, {venues: result})
         commit(GROUP_PAGE_VENUES, {groupPageVenues: groupPageVenues})
         commit(CURRENT_PAGE_VENUES, {currentPageVenues: groupPageVenues[0]})
+        commit(PAGE_LOADING, {pageLoading: false})
     }
-}
-
-function starCount(value) {
-    let star = []
-    if (value && value > 0) {
-        for(let i = 0; i < (parseInt(value / 1)); i++){
-            star.push(1)
-        }
-        if(value % 1 >= 0.5 && star.length < 5){
-            star.push(0.5)
-        }
-        for(let j = 0; j <= (5 - star.length); j++) {
-            star.push(0)
-        }
-    } else {
-        star = [0, 0, 0, 0, 0]
-    }
-    return star
 }

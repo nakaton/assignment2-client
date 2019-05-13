@@ -1,5 +1,5 @@
 <template>
-    <div class="pagination">
+    <div class="pagination" v-if="this.venues.length > 0">
         <el-pagination
             @current-change="handleCurrentChange"
             background

@@ -3,17 +3,28 @@
         <div>
             <form>
                 <div class="searchBar">
-                    <select v-model="selected" class="searchArea selectList">
-                        <option value="">All Cities</option>
-                        <option value="Christchurch">Christchurch</option>
-                        <option value="New York">New York</option>
-                        <option value="London">London</option>
-                        <option value="Shanghai">Shanghai</option>
-                    </select>
+                    <el-select v-model="selected" filterable class="searchArea selectList">
+                        <el-option
+                            v-for="item in options"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                        </el-option>
+                    </el-select>
+                    <!--<select v-model="selected" class="searchArea selectList">-->
+                        <!--<option value="">All Cities</option>-->
+                        <!--<option value="Christchurch">Christchurch</option>-->
+                        <!--<option value="New York">New York</option>-->
+                        <!--<option value="London">London</option>-->
+                        <!--<option value="Shanghai">Shanghai</option>-->
+                    <!--</select>-->
                 </div>
                 <div class="searchBar">
-                    <input type="search" v-model="q" placeholder=" Search Content" class="searchArea searchBox">
-                    <input type="submit" v-on:click="onSubmit" style="visibility: hidden">
+                    <el-input placeholder=" Search Content" v-model="q" class="searchArea searchBox">
+                        <el-button slot="append" icon="el-icon-search" v-on:click="onSubmit"></el-button>
+                    </el-input>
+                    <!--<input type="search" v-model="q" placeholder=" Search Content" class="searchArea searchBox">-->
+                    <!--<input type="submit" v-on:click="onSubmit" style="visibility: hidden">-->
                 </div>
             </form>
         </div>
@@ -45,8 +56,24 @@
         name: "Search",
         data (){
             return{
-                selected: "",
-                q:""
+                q:"",
+                options: [{
+                    value: '',
+                    label: 'All Cities'
+                }, {
+                    value: 'Christchurch',
+                    label: 'Christchurch'
+                }, {
+                    value: 'New York',
+                    label: 'New York'
+                }, {
+                    value: 'London',
+                    label: 'London'
+                }, {
+                    value: 'Shanghai',
+                    label: 'Shanghai'
+                }],
+                selected: ""
             }
         },
         methods:{

@@ -1,54 +1,44 @@
 <template>
     <div>
         <Search/>
-        <div class="listing-summaries-wrapper">
-            <div class="listing-summaries" style="transform: translateX(0px)">
-                <div class="listing-summary" v-for="item in this.currentPageVenues">
-                    <div class="wrapper">
-                        <div id="photo" class="thumbnail">
-                            <!--<img src='./images/venue_back.svg'/>-->
-                            <img :src='item.src' class="thumbnail"/>
-                        </div>
-                        <div class="info title">
-                            <span>{{item.venueName}} | {{item.city}}</span>
-                        </div>
-                        <div class="info description">
-                            <span>Category : {{item.categoryName}}</span>
-                        </div>
-                        <div class="info description">
-                            Description : {{item.shortDescription}}
-                        </div>
-                        <div>
-                            <div class="info description star-div">Star Rate:</div>
-                            <div class="star-div" v-for="star in item.meanStar">
-                                <div>
-                                    <img class="star" v-if="star === 1" src="src/components/Star/images/star24_on@2x.png"/>
-                                </div>
-                                <div>
-                                    <img class="star" v-if="star === 0.5" src="src/components/Star/images/star24_half@2x.png"/>
-                                </div>
-                                <div>
-                                    <img class="star" v-if="star === 0" src="src/components/Star/images/star24_off@2x.png"/>
-                                </div>
+        <div v-loading="this.pageLoading">
+            <div class="listing-summaries-wrapper">
+                <div class="listing-summaries" style="transform: translateX(0px)">
+                    <div class="listing-summary" v-for="item in this.currentPageVenues">
+                        <div class="wrapper">
+                            <div id="photo" class="thumbnail">
+                                <!--<img src='./images/venue_back.svg'/>-->
+                                <img :src='item.src' class="thumbnail"/>
                             </div>
-                            <div class="info description star-div">&nbsp&nbsp&nbsp&nbsp&nbspCost Rate:</div>
-                            <div class="star-div" v-for="star in item.modeCost">
-                                <div>
-                                    <img class="star" v-if="star === 1" src="src/components/Star/images/star24_on@2x.png"/>
+                            <div class="info title">
+                                <span>{{item.venueName}} | {{item.city}}</span>
+                            </div>
+                            <div class="info description">
+                                <span>Category : {{item.categoryName}}</span>
+                            </div>
+                            <div class="info description">
+                                Description : {{item.shortDescription}}
+                            </div>
+                            <div>
+                                <div class="info description star-div">Star Rate:</div>
+                                <div class="star-div">
+                                    <el-rate
+                                        v-model="item.meanStarRating"
+                                        disabled
+                                        text-color="#909399">
+                                    </el-rate>
                                 </div>
-                                <div>
-                                    <img class="star" v-if="star === 0.5" src="src/components/Star/images/star24_half@2x.png"/>
-                                </div>
-                                <div>
-                                    <img class="star" v-if="star === 0" src="src/components/Star/images/star24_off@2x.png"/>
+                                <div class="info description star-div">
+                                    &nbsp;Cost Rate:
+                                    <span style="color: #ff9900;">{{item.modeCostRating || 0}}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <Pagination/>
         </div>
-        <Pagination/>
     </div>
 </template>
 
@@ -63,8 +53,7 @@
         data (){
             return{
                 error: "",
-                errorFlg: false,
-                showVenues: []
+                errorFlg: false
             }
         },
         mounted (){
@@ -73,7 +62,8 @@
         computed:{
             ...mapState(["venues"]),
             ...mapState(["pageSize"]),
-            ...mapState(["currentPageVenues"])
+            ...mapState(["currentPageVenues"]),
+            ...mapState(["pageLoading"])
         },
         methods: {
             ...mapActions(['getVenues'])

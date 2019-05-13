@@ -5,7 +5,8 @@ import Vue from 'vue'
 import {
     RECEIVE_VENUES,
     GROUP_PAGE_VENUES,
-    CURRENT_PAGE_VENUES
+    CURRENT_PAGE_VENUES,
+    PAGE_LOADING
 } from './mutations-types'
 
 export default {
@@ -17,5 +18,8 @@ export default {
     },
     [CURRENT_PAGE_VENUES](state, {currentPageVenues}){
         state.currentPageVenues = currentPageVenues
+    },
+    [PAGE_LOADING](state, {pageLoading}){
+        state.pageLoading = pageLoading
     }
 }
