@@ -91,7 +91,7 @@
 
 <style scoped>
     .listing-summaries-wrapper {
-        padding-top: 60px;
+        padding-top: 57px;
         overflow: hidden;
     }
     .listing-summaries {
