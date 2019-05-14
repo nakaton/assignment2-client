@@ -140,14 +140,6 @@
         font-size: 14px;
         line-height: 18px;
     }
-
-    .star {
-        float: left;
-        width: 13px;
-        height: 13px;
-        /*display: flex;*/
-        /*flex-direction: row;*/
-    }
     .star-div {
         display: inline-block;
         float: left;
