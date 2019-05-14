@@ -51,6 +51,9 @@
 
 <script>
     import {mapState} from 'vuex'
+    import {
+        CURRENT_PAGE_NUM
+    } from '../../store/mutations-types'
 
     export default {
         name: "Search",
@@ -87,6 +90,9 @@
                 }
                 params.pageSize = this.pageSize
                 this.$parent.getVenues(params);
+                this.$parent.showVenues = true;
+                this.$parent.currentPageNum = 1;
+                this.$router.push('/venues');
             }
         },
         computed:{
@@ -121,12 +127,18 @@
         width: 400px !important;
     }
     #toolBar{
+        padding-top: 7px;
         display: flex;
         justify-content: space-between;
         align-items: center;
         text-decoration: none;
         box-shadow:0px 15px 10px -15px #ccc;
-        margin: 0 0 7px 0 !important;
+        background-color: #ffffff !important;
+        width: 100%;
+        position: fixed;
+        left: 0px !important;
+        top: 0px !important;
+        z-index: 99;
     }
     .searchBar {
         display: flex;

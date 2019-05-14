@@ -3,6 +3,7 @@
         <el-pagination
             @current-change="handleCurrentChange"
             background
+            :current-page="this.$parent.currentPageNum"
             :page-size="this.pageSize"
             layout="prev, pager, next"
             :total="this.venues.length">
@@ -24,6 +25,7 @@
                 // console.log("groupPageVenues: " + this.groupPageVenues[val - 1])
                 // console.log("currentPageVenues: " + this.currentPageVenues)
                 this.$store.commit(CURRENT_PAGE_VENUES, {currentPageVenues: this.groupPageVenues[val - 1]});
+                this.$parent.currentPageNum = val;
             }
         },
         computed: {

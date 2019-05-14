@@ -6,7 +6,8 @@ import {
     RECEIVE_VENUES,
     GROUP_PAGE_VENUES,
     CURRENT_PAGE_VENUES,
-    PAGE_LOADING
+    PAGE_LOADING,
+    CURRENT_VENUE_DETAIL
 } from './mutations-types'
 
 export default {
@@ -21,5 +22,8 @@ export default {
     },
     [PAGE_LOADING](state, {pageLoading}){
         state.pageLoading = pageLoading
+    },
+    [CURRENT_VENUE_DETAIL](state, {currentVenueDetail}){
+        state.currentVenueDetail = currentVenueDetail
     }
 }

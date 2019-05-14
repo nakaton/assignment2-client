@@ -4,5 +4,26 @@ export default {
     pageLoading: true,
     groupPageVenues:[],
     currentPageVenues: [],
-    venues: []
+    venues: [],
+    currentVenueDetail:{
+        venueName:"",
+        admin:{
+            userId:"",
+            username:""
+        },
+        category:{
+            categoryName:"",
+            categoryDescription:""
+        },
+        city: "",
+        shortDescription:"",
+        longDescription:"",
+        dateAdded:"",
+        address:"",
+        latitude:"",
+        longitude:"",
+        photos:[],
+        meanStarRating:"",
+        modeCostRating:""
+    }
 }
