@@ -5,7 +5,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 import Venues from '../pages/Venues/Venues'
-import VenueDetail from '../pages/VenueDetail/VenueDetail'
+import Login from '../pages/Login/Login'
 
 Vue.use(VueRouter);
 
@@ -14,6 +14,10 @@ export default new VueRouter({
         {
             path: '/',
             redirect: '/venues'
+        },
+        {
+            path: '/login',
+            component: Login
         },
         {
             path: '/venues',

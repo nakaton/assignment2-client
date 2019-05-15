@@ -39,10 +39,14 @@
             </ul>
             <ul v-else>
                 <li>
-                    <a href="/login">Login</a>
+                    <router-link :to="{path : '/login'}">
+                        <a>Login</a>
+                    </router-link>
                 </li>
                 <li>
-                    <a href="/login">Register</a>
+                    <router-link :to="{path : '/login'}">
+                        <a>Register</a>
+                    </router-link>
                 </li>
             </ul>
         </div>
