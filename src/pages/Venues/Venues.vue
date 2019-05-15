@@ -106,7 +106,13 @@
         flex: 0 0 auto;
         position: relative;
     }
-
+    .listing-summary a{
+        color: #484848;
+        letter-spacing: .5px;
+        cursor: pointer;
+        align-items: center;
+        text-decoration: none;
+    }
     .thumbnail {
         width: 270px;
         height: 195px;
@@ -118,7 +124,6 @@
     .wrapper {
         max-width: 270px;
         display: block;
-        text-decoration:none;
     }
     .info.title {
         padding-top: 5px;
