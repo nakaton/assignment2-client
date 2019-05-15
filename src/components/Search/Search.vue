@@ -36,6 +36,9 @@
                 <li>
                     <a href="/login">Personal</a>
                 </li>
+                <li>
+                    <div  style="border-radius: 50%; background-color: red; width: 40px; height: 40px; ">User Photo</div>
+                </li>
             </ul>
             <ul v-else>
                 <li>
@@ -47,6 +50,9 @@
                     <router-link :to="{path : '/login'}">
                         <a>Register</a>
                     </router-link>
+                </li>
+                <li>
+                    <div  style="border-radius: 50%; background-color: red; width: 40px; height: 40px; ">User Photo</div>
                 </li>
             </ul>
         </div>

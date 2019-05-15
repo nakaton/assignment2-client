@@ -13,7 +13,7 @@
                                         <img :src='item.src' class="thumbnail"/>
                                     </div>
                                     <div class="info title">
-                                                <span>{{item.venueName}} | {{item.city}}</span>
+                                        <span>{{item.venueName}} | {{item.city}}</span>
                                     </div>
                                     <div class="info description">
                                         <span>Category : {{item.categoryName}}</span>

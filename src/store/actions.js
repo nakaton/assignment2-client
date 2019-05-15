@@ -4,7 +4,7 @@ Vuex actions modules
 import {
     reqVenues,
     reqVenueDetail,
-    reqVenueReviews
+    reqVenueReviews, reqUserPhoto
 } from '../api/api'
 
 import {
@@ -93,6 +93,15 @@ export default {
 
         //Get Reviews
         let venueReviews = await reqVenueReviews(venueId);
+
+        for (let i = 0; i < venueReviews.length; i++) {
+            try{
+                let userPhoto = await reqUserPhoto(venueReviews[i].reviewAuthor.userId);
+                venueReviews[i].userPhotoSrc = BASE_URL + '/users/' + venueReviews[i].reviewAuthor.userId + '/photo';
+            }catch (e) {
+                venueReviews[i].userPhotoSrc = 'src/pages/Venues/images/default.png';
+            }
+        }
 
         venueReviews.sort(keySort('timePosted', true));
 

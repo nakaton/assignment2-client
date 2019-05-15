@@ -78,23 +78,28 @@
                         <h3>Reviews</h3>
                     </div>
                     <div v-for="review in this.currentVenueReviews">
-                        <div class="info description" style="padding-bottom: 10px">
-                            <tr>
-                                <td>
-                                    <el-tag type="info" size="mini">Reviewer</el-tag>
-                                </td>
-                                <td>
-                                    <span>&nbsp;{{review.reviewAuthor.username}}</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>
-                                    <div class="info description">
-                                        <span>&nbsp;{{review.timePosted}}</span>
-                                    </div>
-                                </td>
-                            </tr>
+                        <div class="info description" style="padding-bottom: 10px; display: flex">
+                            <div style="border-radius: 50%; background-color: red; width: 40px; height: 40px; display: flex">
+                                <img :src="review.userPhotoSrc" style="border-radius: 50%; width: 40px; height: 40px; display: flex"/>
+                            </div>
+                            <div>
+                                <div style="padding-bottom: 5px">
+                                    <tr>
+                                        <td>
+                                            <span>&nbsp;{{review.reviewAuthor.username}}</span>
+                                        </td>
+                                    </tr>
+                                </div>
+                                <div>
+                                    <tr>
+                                        <td>
+                                            <div class="info description">
+                                                <span>&nbsp;{{review.timePosted}}</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </div>
+                            </div>
                         </div>
                         <div class="info description" style="padding-bottom: 10px">
                             <span>{{review.reviewBody}}</span>
