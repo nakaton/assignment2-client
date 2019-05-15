@@ -7,7 +7,8 @@ import {
     GROUP_PAGE_VENUES,
     CURRENT_PAGE_VENUES,
     PAGE_LOADING,
-    CURRENT_VENUE_DETAIL
+    CURRENT_VENUE_DETAIL,
+    CURRENT_VENUE_REVIEWS
 } from './mutations-types'
 
 export default {
@@ -25,5 +26,8 @@ export default {
     },
     [CURRENT_VENUE_DETAIL](state, {currentVenueDetail}){
         state.currentVenueDetail = currentVenueDetail
+    },
+    [CURRENT_VENUE_REVIEWS](state, {currentVenueReviews}){
+        state.currentVenueReviews = currentVenueReviews
     }
 }

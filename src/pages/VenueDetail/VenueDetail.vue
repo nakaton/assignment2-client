@@ -1,9 +1,9 @@
 <template>
-    <div v-loading="this.pageLoading" class="venueDetailContainer">
-        <div class="carouselDiv">
+    <div v-loading="this.pageLoading" class="venue-detail-container">
+        <div class="carousel-div">
             <el-carousel indicator-position="outside" height="350px">
                 <el-carousel-item v-for="item in this.currentVenueDetail.photos" :key="item.photoFilename">
-                    <div class="fullPhotoDiv" v-bind:style="{backgroundImage:'url(' + item.src + ')'}"
+                    <div class="full-photo-div" v-bind:style="{backgroundImage:'url(' + item.src + ')'}"
                          v-on:click="bigPhotoVisible = true; imageSrc = item.src; photoDescription = item.photoDescription">
                     </div>
                 </el-carousel-item>
@@ -14,31 +14,55 @@
                 :visible.sync="bigPhotoVisible"
                 :title="'Description : ' + photoDescription"
                 width="60%">
-                <img :src='imageSrc' class="fullPhoto"/>
+                <img :src='imageSrc' class="full-photo"/>
             </el-dialog>
         </div>
-        <div class="backButton">
+        <div class="back-button">
             <router-link :to="{ name : 'venues'}">
                 <div>
                     <a v-on:click="onRouterLinkClick">
-                        <el-button type="info" icon="el-icon-back" plain class="backButton"></el-button>
+                        <el-button type="info" icon="el-icon-back" plain class="back-button"></el-button>
                     </a>
                 </div>
             </router-link>
         </div>
 
         <div v-show="!this.pageLoading" class="listing-container">
-            <div class="info">
+            <div id="venue_detail" class="info">
                 <div class="info title">
                     <span>{{this.currentVenueDetail.venueName}} | {{this.currentVenueDetail.city}}</span>
                 </div>
                 <div>
-                    <el-tag type="info" size="mini">{{this.currentVenueDetail.category.categoryName}}</el-tag>
-                    <span class="info description">({{this.currentVenueDetail.category.categoryDescription}})</span>
+                    <el-tag type="success" size="mini">{{this.currentVenueDetail.category.categoryName}}</el-tag>
+                    <span class="info description">&nbsp;({{this.currentVenueDetail.category.categoryDescription}})</span>
                 </div>
                 <div style="padding-bottom: 10px">
                     <span class="info description">{{this.currentVenueDetail.address}}</span>
                     <span class="info description">&nbsp;&nbsp;({{this.currentVenueDetail.latitude}} , {{this.currentVenueDetail.longitude}})</span>
+                </div>
+                <div style="display: flex">
+                    <div class="info description star-div">
+                        <el-tag type="success" size="mini">Star Rate :</el-tag>
+                    </div>
+                    <div class="star-div">
+                        <el-rate
+                            :value="this.currentVenueDetail.meanStarRating"
+                            disabled
+                            text-color="#909399">
+                        </el-rate>
+                    </div>
+                    <div class="info description cost-div">
+                        <el-tag type="success" size="mini">Cost Rate :</el-tag>
+                        <span style="color: #484848;">{{this.currentVenueDetail.modeCostRating || 0.0}} $</span>
+                    </div>
+                </div>
+                <div style="padding-top: 10px; padding-bottom: 5px" class="info description">
+                    <el-tag type="info" size="mini">Owner</el-tag>
+                    <span>&nbsp;{{this.currentVenueDetail.admin.username}}</span>
+                </div>
+                <div style="padding-bottom: 10px" class="info description">
+                    <el-tag type="info" size="mini">Create Date</el-tag>
+                    <span>&nbsp;{{this.currentVenueDetail.dateAdded}}</span>
                 </div>
                 <hr>
                 <div style="padding-bottom: 10px" class="info description">
@@ -49,62 +73,49 @@
                     <span>{{this.currentVenueDetail.longDescription}}</span>
                 </div>
                 <hr>
-                <div style="padding-top: 10px" class="info description">
-                    <span>Owner: {{this.currentVenueDetail.admin.username}}</span>
-                </div>
-                <div style="padding-bottom: 10px" class="info description">
-                    <span>Create By: {{this.currentVenueDetail.dateAdded}}</span>
-                </div>
-                <div>
-                    <div class="info description star-div">Star Rate:</div>
-                    <div class="star-div">
-                        <el-rate
-                            v-model="this.currentVenueDetail.meanStarRating"
-                            disabled
-                            text-color="#909399">
-                        </el-rate>
+                <div id="venue_reviews" style="display: grid">
+                    <div class="info description">
+                        <h3>Reviews</h3>
                     </div>
-                    <div class="info description cost-div">
-                        Cost Rate:
-                        <span style="color: #ff9900;">{{this.currentVenueDetail.modeCostRating || 0.0}} $</span>
+                    <div v-for="review in this.currentVenueReviews">
+                        <div class="info description" style="padding-bottom: 10px">
+                            <tr>
+                                <td>
+                                    <el-tag type="info" size="mini">Reviewer</el-tag>
+                                </td>
+                                <td>
+                                    <span>&nbsp;{{review.reviewAuthor.username}}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <div class="info description">
+                                        <span>&nbsp;{{review.timePosted}}</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </div>
+                        <div class="info description" style="padding-bottom: 10px">
+                            <span>{{review.reviewBody}}</span>
+                        </div>
+                        <div style="display: flex">
+                            <div class="info description star-div">Star Rate :</div>
+                            <div class="star-div">
+                                <el-rate
+                                    :value="review.starRating"
+                                    disabled
+                                    text-color="#909399">
+                                </el-rate>
+                            </div>
+                            <div class="info description cost-div">
+                                <span>Cost Rate:</span>
+                                <span style="color: #484848;">{{review.costRating || 0.0}} $</span>
+                            </div>
+                        </div>
+                        <hr>
                     </div>
                 </div>
-                <!--<br/>-->
-                <!--<span>meanStarRating: {{this.currentVenueDetail.meanStarRating}}</span>-->
-                <!--<br/>-->
-                <!--<span>modeCostRating: {{this.currentVenueDetail.modeCostRating}}</span>-->
-                <!--<br/>-->
-                <!--<span>admin.userId: {{this.currentVenueDetail.admin.userId}}</span>-->
-                <!--<br/>-->
-                <!--<span>admin.username: {{this.currentVenueDetail.admin.username}}</span>-->
-                <!--<br/>-->
-                <!--<span>categoryName: {{this.currentVenueDetail.category.categoryName}}</span>-->
-                <!--<br/>-->
-                <!--<span>categoryDescription: {{this.currentVenueDetail.category.categoryDescription}}</span>-->
-                <!--<br/>-->
-                <!--<span>city: {{this.currentVenueDetail.city}}</span>-->
-                <!--<br/>-->
-                <!--<span>shortDescription: {{this.currentVenueDetail.shortDescription}}</span>-->
-                <!--<br/>-->
-                <!--<span>longDescription: {{this.currentVenueDetail.longDescription}}</span>-->
-                <!--<br/>-->
-                <!--<span>dateAdded: {{this.currentVenueDetail.dateAdded}}</span>-->
-                <!--<br/>-->
-                <!--<span>address: {{this.currentVenueDetail.address}}</span>-->
-                <!--<br/>-->
-                <!--<span>latitude: {{this.currentVenueDetail.latitude}}</span>-->
-                <!--<br/>-->
-                <!--<span>longitude: {{this.currentVenueDetail.longitude}}</span>-->
-                <!--<br/>-->
-                <!--<div v-for="item in this.currentVenueDetail.photos">-->
-                    <!--<img :src='item.src' class="thumbnail"/>-->
-                    <!--<br/>-->
-                    <!--<span>photoFilename: {{item.photoFilename}}</span>-->
-                    <!--<br/>-->
-                    <!--<span>photoDescription: {{item.photoDescription}}</span>-->
-                    <!--<br/>-->
-                    <!--<span>isPrimary: {{item.isPrimary}}</span>-->
-                <!--</div>-->
             </div>
         </div>
     </div>
@@ -134,7 +145,8 @@
         },
         computed:{
             ...mapState(["pageLoading"]),
-            ...mapState(["currentVenueDetail"])
+            ...mapState(["currentVenueDetail"]),
+            ...mapState(["currentVenueReviews"])
         }
     }
 </script>
@@ -161,21 +173,21 @@
         float: left;
     }
     .cost-div {
-        /*display: inline-block;*/
+        display: inline-block;
         float: left;
     }
-    .venueDetailContainer{
+    .venue-detail-container{
         display: grid;
         z-index: 1;
     }
-    .carouselDiv{
+    .carousel-div{
         width: 100%;
         text-align: center;
         vertical-align: middle;
         margin: 0 auto;
         padding-top: 57px;
     }
-    .fullPhotoDiv {
+    .full-photo-div {
         /*background-repeat: no-repeat;*/
         -moz-background-size: cover;
         -o-background-size: cover;
@@ -190,14 +202,14 @@
         margin: 0 auto;
         border-radius: 4px;
     }
-    .fullPhoto {
+    .full-photo {
         width: 100%;
         height: 100%;
         /*background-size: cover;*/
         background-position: 100%;
         border-radius: 4px
     }
-    .backButton {
+    .back-button {
         position: fixed;
         z-index: 99;
         box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;

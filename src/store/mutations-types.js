@@ -6,3 +6,4 @@ export const GROUP_PAGE_VENUES = 'group_page_venues' //Slice Venues for each pag
 export const CURRENT_PAGE_VENUES = 'current_page_venues' //Venues show for current page
 export const PAGE_LOADING = 'page_loading' //Page loading status
 export const CURRENT_VENUE_DETAIL = 'current_venue_detail' //Detail for current venue
+export const CURRENT_VENUE_REVIEWS = 'current_venue_reviews' //Reviews for current venue

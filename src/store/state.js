@@ -23,7 +23,8 @@ export default {
         latitude:"",
         longitude:"",
         photos:[],
-        meanStarRating:"",
-        modeCostRating:""
-    }
+        meanStarRating:0,
+        modeCostRating:0
+    },
+    currentVenueReviews: []
 }

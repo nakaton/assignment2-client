@@ -3,7 +3,8 @@ Vuex actions modules
  */
 import {
     reqVenues,
-    reqVenueDetail
+    reqVenueDetail,
+    reqVenueReviews
 } from '../api/api'
 
 import {
@@ -11,7 +12,8 @@ import {
     GROUP_PAGE_VENUES,
     CURRENT_PAGE_VENUES,
     PAGE_LOADING,
-    CURRENT_VENUE_DETAIL
+    CURRENT_VENUE_DETAIL,
+    CURRENT_VENUE_REVIEWS
 } from './mutations-types'
 
 import {BASE_URL} from '../../config/env'
@@ -61,7 +63,7 @@ export default {
     },
 
     /**
-     * Get Venue Detail
+     * Get Venue Detail and Reviews
      * @param commit
      * @param params
      * @returns {Promise<void>}
@@ -89,7 +91,46 @@ export default {
             }
         }
 
+        //Get Reviews
+        let venueReviews = await reqVenueReviews(venueId);
+
+        //Format date and sort
+        for(let j = 0; j < venueReviews.length; j++ ){
+            venueReviews[j].timePosted = formatDate(new Date(venueReviews[j].timePosted))
+        }
+        venueReviews.sort(keySort('timePosted', true));
+
         commit(CURRENT_VENUE_DETAIL, {currentVenueDetail: venueDetail})
         commit(PAGE_LOADING, {pageLoading: false})
+        commit(CURRENT_VENUE_REVIEWS, {currentVenueReviews: venueReviews})
     }
+}
+/**
+ * Sort Array by key column
+ * @param key
+ * @param reverseSort true for "DESC"；false for "ASC"
+ */
+function keySort(key,reverseSort){
+    return function(a,b){
+        return reverseSort ? ((a[key] > b[key]) ? 1 : -1) : ((b[key] > a[key]) ? 1 : -1);
+    }
+}
+
+/**
+ * Date Format
+ * @param date
+ * @returns {string}
+ */
+function formatDate(date) {
+    let y = date.getFullYear();
+    let m = date.getMonth() + 1;
+    m = m < 10 ? ('0' + m) : m;
+    let d = date.getDate();
+    d = d < 10 ? ('0' + d) : d;
+    let h = date.getHours();
+    let minute = date.getMinutes();
+    minute = minute < 10 ? ('0' + minute) : minute;
+    let second= date.getSeconds();
+    second = minute < 10 ? ('0' + second) : second;
+    return y + '-' + m + '-' + d+' '+h+':'+minute+':'+ second;
 }
