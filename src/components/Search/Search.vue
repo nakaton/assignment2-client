@@ -59,6 +59,10 @@
 
 <script>
     import {mapState} from 'vuex'
+    import {
+        CURRENT_USER,
+        LOGIN
+    } from '../../store/mutations-types'
 
     export default {
         name: "Search",
@@ -101,6 +105,10 @@
             },
             onClickLogout: function () {
                 alert("log out")
+                alert(this.currentUser.UserToken)
+                this.$store.commit(CURRENT_USER, {userId: "", userToken:"", isLogin:false});
+                this.$store.commit(LOGIN, {login: false});
+                alert(this.currentUser.UserToken)
             }
         },
         computed:{

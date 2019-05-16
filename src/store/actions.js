@@ -127,7 +127,7 @@ export default {
             const loginResult = await userLogin(params)
 
             commit(LOGIN, {login: true})
-            commit(CURRENT_USER, {userId: loginResult.userId, userToken:loginResult.token})
+            commit(CURRENT_USER, {userId: loginResult.userId, userToken:loginResult.token, isLogin:true})
             commit(PAGE_LOADING, {pageLoading: false})
         }catch (e) {
             console.log(e)

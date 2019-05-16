@@ -52,6 +52,9 @@
     import VenueDetail from '../VenueDetail/VenueDetail.vue'
     import {mapActions} from 'vuex'
     import {mapState} from 'vuex'
+    import {
+        LOGIN
+    } from '../../store/mutations-types'
 
     export default {
         name: "Venues",
@@ -65,7 +68,11 @@
         },
         mounted (){
             this.getVenues({pageSize: this.pageSize});
-            this.$router.push('/venues');
+            if(localStorage.getItem("isLogin") == 'true'){
+                // alert("true")
+                this.$store.commit(LOGIN, {login: true});
+            }
+            // this.$router.push('/venues');
         },
         computed:{
             ...mapState(["venues"]),

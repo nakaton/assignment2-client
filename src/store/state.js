@@ -28,11 +28,14 @@ export default {
     },
     currentVenueReviews: [],
     currentUser:{
-        get UserName(){
+        get UserId(){
             return localStorage.getItem("currentUser_id");
         },
         get UserToken(){
             return localStorage.getItem("currentUser_token");
+        },
+        get UserLoginStatus(){
+            return localStorage.getItem("isLogin");
         }
     }
 }
