@@ -38,7 +38,7 @@
         <div v-else id="login" class="login-container">
             <form>
                 <div class="div-padding">
-                    <el-input placeholder="User Name" v-model="username" clearable></el-input>
+                    <el-input placeholder="User Name" v-model="username" clearable maxlength="64"></el-input>
                 </div>
                 <div class="div-padding">
                     <el-input placeholder="Email" v-model="email" clearable></el-input>

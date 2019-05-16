@@ -31,7 +31,9 @@
         <div id="loginBar">
             <ul v-if="login">
                 <li>
-                    <a href="/login">My Venue</a>
+                    <router-link :to="{ name : 'myVenues'}">
+                        <a>My Venue</a>
+                    </router-link>
                 </li>
                 <li>
                     <a href="/login">Personal</a>

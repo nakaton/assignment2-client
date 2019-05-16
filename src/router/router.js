@@ -6,6 +6,7 @@ import VueRouter from 'vue-router';
 
 import Venues from '../pages/Venues/Venues'
 import Login from '../pages/Login/Login'
+import MyVenues from '../pages/MyVenues/MyVenues'
 
 Vue.use(VueRouter);
 
@@ -34,6 +35,16 @@ export default new VueRouter({
             path: '/venues/:venueId',
             name: 'venueDetail',
             component: Venues
+        },
+        {
+            path: '/myVenues',
+            name: 'myVenues',
+            component: MyVenues
+        },
+        {
+            path: '/myVenues/:venueId',
+            name: 'myVenuesDetail',
+            component: MyVenues
         }
     ]
 })
