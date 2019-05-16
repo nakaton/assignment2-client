@@ -87,34 +87,32 @@
             ...mapActions(['userLogin']),
             ...mapActions(['userRegister']),
 
-            onSubmitUserRegister: async function () {
-                try {
-                    await this.userRegister({
-                        username: this.username,
-                        email: this.email,
-                        givenName: this.givenName,
-                        familyName: this.familyName,
-                        password: this.password
-                    })
+            onSubmitUserRegister: function () {
+                this.userRegister({
+                    username: this.username,
+                    email: this.email,
+                    givenName: this.givenName,
+                    familyName: this.familyName,
+                    password: this.password
+                }).then(data => {
+                    // resolve(response.data)
                     //After successfully register, auto login
                     this.onSubmitUserLogin()
-                }catch (e) {
-                    console.log(e)
-                }
+                }).catch(error => {
+                    alert(error.response.statusText)
+                });
             },
-            onSubmitUserLogin: async function () {
-                try{
-                    await this.userLogin({
-                        username: this.username,
-                        email: this.email,
-                        password: this.password
-                    })
+            onSubmitUserLogin: function () {
+                this.userLogin({
+                    username: this.username,
+                    email: this.email,
+                    password: this.password
+                }).then(data => {
                     // alert("success")
                     this.$router.push({path: '/venues'})
-                }catch (e) {
-                    // alert("error")
-                    console.log(e)
-                }
+                }).catch(error => {
+                    alert(error.response.statusText)
+                });
             }
         },
         computed:{
