@@ -31,7 +31,7 @@
                 </router-link>
                 <span>&nbsp;Or&nbsp;</span>
                 <router-link :to="{ name : 'venues'}">
-                    <a v-on:click="onMoveToVenue">Stay as a visitor</a>
+                    <a>Stay as a visitor</a>
                 </router-link>
             </div>
         </div>
@@ -57,7 +57,7 @@
                 </router-link>
                 <span>&nbsp;Or&nbsp;</span>
                 <router-link :to="{ name : 'venues'}">
-                    <a v-on:click="onMoveToVenue">Stay as a visitor</a>
+                    <a>Stay as a visitor</a>
                 </router-link>
             </div>
         </div>
@@ -67,9 +67,6 @@
 <script>
     import {mapActions} from 'vuex'
     import {mapState} from 'vuex'
-    import {
-        SHOW_LOGIN
-    } from '../../store/mutations-types'
 
     export default {
         name: "Login",
@@ -100,21 +97,18 @@
                 })
             },
             onSubmitUserLogin: async function () {
-                alert(1)
                 try{
                     await this.userLogin({
                         username: this.username,
                         email: this.email,
                         password: this.password
                     })
-                    alert("success")
+                    // alert("success")
                     this.$router.push({path: '/venues'})
                 }catch (e) {
-                    alert("error")
+                    // alert("error")
+                    console.log(e)
                 }
-            },
-            onMoveToVenue: function () {
-                this.$store.commit(SHOW_LOGIN, {showLogin: false});
             }
         },
         computed:{

@@ -1,5 +1,5 @@
 export default {
-    showLogin: false,
+    login: false,
     pageSize: 12,
     pageLoading: true,
     groupPageVenues:[],

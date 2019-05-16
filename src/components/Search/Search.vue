@@ -29,12 +29,15 @@
             </form>
         </div>
         <div id="loginBar">
-            <ul v-if="false">
+            <ul v-if="login">
                 <li>
                     <a href="/login">My Venue</a>
                 </li>
                 <li>
                     <a href="/login">Personal</a>
+                </li>
+                <li>
+                    <a v-on:click="onClickLogout">Log Out</a>
                 </li>
                 <li>
                     <div  style="border-radius: 50%; background-color: red; width: 40px; height: 40px; ">User Photo</div>
@@ -43,11 +46,11 @@
             <ul v-else>
                 <li>
                     <router-link :to="{ name : 'login'}">
-                        <a v-on:click="onClickLogin">Login</a>
+                        <a>Login</a>
                     </router-link>
                 </li>
                 <li>
-                    <div  style="border-radius: 50%; background-color: red; width: 40px; height: 40px; ">User Photo</div>
+                    <div style="border-radius: 50%; background-color: red; width: 40px; height: 40px; ">User Photo</div>
                 </li>
             </ul>
         </div>
@@ -56,9 +59,6 @@
 
 <script>
     import {mapState} from 'vuex'
-    import {
-        SHOW_LOGIN
-    } from '../../store/mutations-types'
 
     export default {
         name: "Search",
@@ -99,12 +99,12 @@
                 this.$parent.currentPageNum = 1;
                 this.$router.push('/venues');
             },
-            onClickLogin: function () {
-                this.$store.commit(SHOW_LOGIN, {showLogin: true});
+            onClickLogout: function () {
+                alert("log out")
             }
         },
         computed:{
-            ...mapState(["showLogin"]),
+            ...mapState(["login"]),
             ...mapState(["pageSize"]),
             ...mapState(["currentUser"])
         }

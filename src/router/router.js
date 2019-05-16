@@ -18,12 +18,12 @@ export default new VueRouter({
         {
             path: '/login',
             name: 'login',
-            component: Venues
+            component: Login
         },
         {
             path: '/register',
             name: 'register',
-            component: Venues
+            component: Login
         },
         {
             path: '/venues',

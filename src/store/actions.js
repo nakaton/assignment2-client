@@ -17,7 +17,7 @@ import {
     PAGE_LOADING,
     CURRENT_VENUE_DETAIL,
     CURRENT_VENUE_REVIEWS,
-    SHOW_LOGIN,
+    LOGIN,
     CURRENT_USER
 } from './mutations-types'
 
@@ -126,7 +126,7 @@ export default {
         try{
             const loginResult = await userLogin(params)
 
-            commit(SHOW_LOGIN, {showLogin: false})
+            commit(LOGIN, {login: true})
             commit(CURRENT_USER, {userId: loginResult.userId, userToken:loginResult.token})
             commit(PAGE_LOADING, {pageLoading: false})
         }catch (e) {

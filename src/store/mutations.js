@@ -9,7 +9,7 @@ import {
     PAGE_LOADING,
     CURRENT_VENUE_DETAIL,
     CURRENT_VENUE_REVIEWS,
-    SHOW_LOGIN,
+    LOGIN,
     CURRENT_USER
 } from './mutations-types'
 
@@ -32,8 +32,8 @@ export default {
     [CURRENT_VENUE_REVIEWS](state, {currentVenueReviews}){
         state.currentVenueReviews = currentVenueReviews
     },
-    [SHOW_LOGIN](state, {showLogin}){
-        state.showLogin = showLogin
+    [LOGIN](state, {login}){
+        state.login = login
     },
     [CURRENT_USER](state, {userId,userToken}){
         localStorage.setItem("currentUser_id",userId);
