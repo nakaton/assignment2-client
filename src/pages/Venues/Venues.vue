@@ -1,47 +1,50 @@
 <template>
     <div>
-        <Search/>
-        <VenueDetail v-show="!showVenues"/>
-        <div v-show="showVenues" v-loading="this.pageLoading" style="z-index: 1">
-            <div class="listing-summaries-wrapper">
-                <div class="listing-summaries" style="transform: translateX(0px)">
-                    <div class="listing-summary" v-for="item in this.currentPageVenues">
-                        <router-link :to="{name : 'venueDetail', params:{venueId: item.venueId}}">
-                            <a v-on:click="onRouterLinkClick(item.venueId, item.meanStarRating, item.modeCostRating)">
-                                <div class="wrapper">
-                                    <div id="photo" class="thumbnail">
-                                        <img :src='item.src' class="thumbnail"/>
-                                    </div>
-                                    <div class="info title">
-                                        <span>{{item.venueName}} | {{item.city}}</span>
-                                    </div>
-                                    <div class="info description">
-                                        <span>Category : {{item.categoryName}}</span>
-                                    </div>
-                                    <div class="info description">
-                                        Description : {{item.shortDescription}}
-                                    </div>
-                                    <div>
-                                        <div class="info description star-div">Star Rate:</div>
-                                        <div class="star-div">
-                                            <el-rate
-                                                v-model="item.meanStarRating"
-                                                disabled
-                                                text-color="#909399">
-                                            </el-rate>
+        <Login v-if="showLogin"/>
+        <div v-else>
+            <Search/>
+            <VenueDetail v-show="!showVenues"/>
+            <div v-show="showVenues" v-loading="this.pageLoading" style="z-index: 1">
+                <div class="listing-summaries-wrapper">
+                    <div class="listing-summaries" style="transform: translateX(0px)">
+                        <div class="listing-summary" v-for="item in this.currentPageVenues">
+                            <router-link :to="{name : 'venueDetail', params:{venueId: item.venueId}}">
+                                <a v-on:click="onRouterLinkClick(item.venueId, item.meanStarRating, item.modeCostRating)">
+                                    <div class="wrapper">
+                                        <div id="photo" class="thumbnail">
+                                            <img :src='item.src' class="thumbnail"/>
                                         </div>
-                                        <div class="info description cost-div">
-                                            Cost Rate:
-                                            <span style="color: #ff9900;">{{item.modeCostRating || 0.0}} $</span>
+                                        <div class="info title">
+                                            <span>{{item.venueName}} | {{item.city}}</span>
+                                        </div>
+                                        <div class="info description">
+                                            <span>Category : {{item.categoryName}}</span>
+                                        </div>
+                                        <div class="info description">
+                                            Description : {{item.shortDescription}}
+                                        </div>
+                                        <div>
+                                            <div class="info description star-div">Star Rate:</div>
+                                            <div class="star-div">
+                                                <el-rate
+                                                    v-model="item.meanStarRating"
+                                                    disabled
+                                                    text-color="#909399">
+                                                </el-rate>
+                                            </div>
+                                            <div class="info description cost-div">
+                                                Cost Rate:
+                                                <span style="color: #ff9900;">{{item.modeCostRating || 0.0}} $</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </a>
-                        </router-link>
+                                </a>
+                            </router-link>
+                        </div>
                     </div>
                 </div>
+                <Pagination/>
             </div>
-            <Pagination/>
         </div>
     </div>
 </template>
@@ -50,6 +53,7 @@
     import Search from '../../components/Search/Search.vue'
     import Pagination from '../../components/Pagination/Pagination.vue'
     import VenueDetail from '../VenueDetail/VenueDetail.vue'
+    import Login from '../Login/Login.vue'
     import {mapActions} from 'vuex'
     import {mapState} from 'vuex'
 
@@ -65,12 +69,14 @@
         },
         mounted (){
             this.getVenues({pageSize: this.pageSize});
+            this.$router.push('/venues');
         },
         computed:{
             ...mapState(["venues"]),
             ...mapState(["pageSize"]),
             ...mapState(["currentPageVenues"]),
-            ...mapState(["pageLoading"])
+            ...mapState(["pageLoading"]),
+            ...mapState(["showLogin"])
         },
         methods: {
             ...mapActions(['getVenues']),
@@ -84,7 +90,8 @@
         components:{
             Search,
             Pagination,
-            VenueDetail
+            VenueDetail,
+            Login
         }
     }
 </script>

@@ -4,7 +4,10 @@ Vuex actions modules
 import {
     reqVenues,
     reqVenueDetail,
-    reqVenueReviews, reqUserPhoto
+    reqVenueReviews,
+    reqUserPhoto,
+    registerUser,
+    userLogin
 } from '../api/api'
 
 import {
@@ -13,7 +16,9 @@ import {
     CURRENT_PAGE_VENUES,
     PAGE_LOADING,
     CURRENT_VENUE_DETAIL,
-    CURRENT_VENUE_REVIEWS
+    CURRENT_VENUE_REVIEWS,
+    SHOW_LOGIN,
+    CURRENT_USER
 } from './mutations-types'
 
 import {BASE_URL} from '../../config/env'
@@ -108,8 +113,46 @@ export default {
         commit(CURRENT_VENUE_DETAIL, {currentVenueDetail: venueDetail})
         commit(PAGE_LOADING, {pageLoading: false})
         commit(CURRENT_VENUE_REVIEWS, {currentVenueReviews: venueReviews})
+    },
+
+    /**
+     * User Login
+     * @param commit
+     * @param params
+     * @returns {Promise<void>}
+     */
+    async userLogin({commit}, params) {
+        commit(PAGE_LOADING, {pageLoading: true})
+        try{
+            const loginResult = await userLogin(params)
+
+            commit(SHOW_LOGIN, {showLogin: false})
+            commit(CURRENT_USER, {userId: loginResult.userId, userToken:loginResult.token})
+            commit(PAGE_LOADING, {pageLoading: false})
+        }catch (e) {
+            console.log(e)
+            throw e
+        }
+
+    },
+
+    /**
+     * User Register
+     * @param commit
+     * @param params
+     * @returns {Promise<void>}
+     */
+    async userRegister({commit}, params) {
+        commit(PAGE_LOADING, {pageLoading: true})
+        debugger
+        const registerResult = await registerUser(params)
+        debugger
+        commit(PAGE_LOADING, {pageLoading: false})
     }
 }
+
+
+
 /**
  * Sort Array by key column
  * @param key

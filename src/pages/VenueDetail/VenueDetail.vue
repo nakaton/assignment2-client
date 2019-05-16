@@ -79,7 +79,7 @@
                     </div>
                     <div v-for="review in this.currentVenueReviews">
                         <div class="info description" style="padding-bottom: 10px; display: flex">
-                            <div style="border-radius: 50%; background-color: red; width: 40px; height: 40px; display: flex">
+                            <div style="border-radius: 50%; width: 40px; height: 40px; display: flex">
                                 <img :src="review.userPhotoSrc" style="border-radius: 50%; width: 40px; height: 40px; display: flex"/>
                             </div>
                             <div>

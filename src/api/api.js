@@ -102,3 +102,24 @@ export const reqVenueReviews = function (venueId) {
 export const reqUserPhoto = function (userId) {
     return ajax(base_url + '/users/' + userId +'/photo')
 }
+
+// User
+/**
+ * Register as a new user.
+ * @param venueId
+ * @param params
+ */
+export const registerUser = function (username, email, givenName, familyName, password, params) {
+    return ajax(base_url + '/users', params, 'POST')
+}
+
+/**
+ * Register as a new user.
+ * @param username
+ * @param email
+ * @param password
+ * @param params
+ */
+export const userLogin = function (params) {
+    return ajax(base_url + '/users/login', params, 'POST')
+}

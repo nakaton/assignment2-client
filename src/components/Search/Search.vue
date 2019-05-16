@@ -29,7 +29,7 @@
             </form>
         </div>
         <div id="loginBar">
-            <ul v-if="login">
+            <ul v-if="false">
                 <li>
                     <a href="/login">My Venue</a>
                 </li>
@@ -42,13 +42,8 @@
             </ul>
             <ul v-else>
                 <li>
-                    <router-link :to="{path : '/login'}">
-                        <a>Login</a>
-                    </router-link>
-                </li>
-                <li>
-                    <router-link :to="{path : '/login'}">
-                        <a>Register</a>
+                    <router-link :to="{ name : 'login'}">
+                        <a v-on:click="onClickLogin">Login</a>
                     </router-link>
                 </li>
                 <li>
@@ -62,7 +57,7 @@
 <script>
     import {mapState} from 'vuex'
     import {
-        CURRENT_PAGE_NUM
+        SHOW_LOGIN
     } from '../../store/mutations-types'
 
     export default {
@@ -103,11 +98,15 @@
                 this.$parent.showVenues = true;
                 this.$parent.currentPageNum = 1;
                 this.$router.push('/venues');
+            },
+            onClickLogin: function () {
+                this.$store.commit(SHOW_LOGIN, {showLogin: true});
             }
         },
         computed:{
-            ...mapState(["login"]),
-            ...mapState(["pageSize"])
+            ...mapState(["showLogin"]),
+            ...mapState(["pageSize"]),
+            ...mapState(["currentUser"])
         }
     }
 </script>

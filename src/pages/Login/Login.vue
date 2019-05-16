@@ -9,7 +9,7 @@
                     <el-input placeholder="Family Name" v-model="familyName" clearable></el-input>
                 </div>
                 <div class="div-padding">
-                    <el-input placeholder="User Name" v-model="userName" clearable></el-input>
+                    <el-input placeholder="User Name" v-model="username" clearable></el-input>
                 </div>
                 <div class="div-padding">
                     <el-input placeholder="Email" v-model="email" clearable></el-input>
@@ -21,17 +21,24 @@
                     <el-input placeholder="Password Confirm" v-model="passwordConfirm" show-password></el-input>
                 </div>
                 <div>
-                    <el-button type="primary">Sign Up</el-button>
+                    <el-button type="primary" v-on:click="onSubmitUserRegister()">Sign Up</el-button>
                 </div>
             </form>
             <div class="change-form">
-                <span>Already have an account? Log in</span>
+                <span>Already have an account?&nbsp;</span>
+                <router-link :to="{ name : 'register'}">
+                    <a v-on:click="isRegister = false">Log in</a>
+                </router-link>
+                <span>&nbsp;Or&nbsp;</span>
+                <router-link :to="{ name : 'venues'}">
+                    <a v-on:click="onMoveToVenue">Stay as a visitor</a>
+                </router-link>
             </div>
         </div>
         <div v-else id="login" class="login-container">
             <form>
                 <div class="div-padding">
-                    <el-input placeholder="User Name" v-model="userName" clearable></el-input>
+                    <el-input placeholder="User Name" v-model="username" clearable></el-input>
                 </div>
                 <div class="div-padding">
                     <el-input placeholder="Email" v-model="email" clearable></el-input>
@@ -40,17 +47,29 @@
                     <el-input placeholder="Password" v-model="password" show-password></el-input>
                 </div>
                 <div>
-                    <el-button type="primary">Log in</el-button>
+                    <el-button type="primary"  v-on:click="onSubmitUserLogin()">Log in</el-button>
                 </div>
             </form>
             <div class="change-form">
-                <span>Don’t have an account? Sign up</span>
+                <span>Don’t have an account?&nbsp;</span>
+                <router-link :to="{ name : 'login'}">
+                    <a v-on:click="isRegister = true">Sign up</a>
+                </router-link>
+                <span>&nbsp;Or&nbsp;</span>
+                <router-link :to="{ name : 'venues'}">
+                    <a v-on:click="onMoveToVenue">Stay as a visitor</a>
+                </router-link>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import {mapActions} from 'vuex'
+    import {mapState} from 'vuex'
+    import {
+        SHOW_LOGIN
+    } from '../../store/mutations-types'
 
     export default {
         name: "Login",
@@ -60,12 +79,46 @@
                 errorFlg: false,
                 givenName: "",
                 familyName: "",
-                userName: "",
+                username: "",
                 email: "",
                 password: "",
                 passwordConfirm: "",
-                isRegister: true
+                isRegister: false
             }
+        },
+        methods:{
+            ...mapActions(['userLogin']),
+            ...mapActions(['userRegister']),
+
+            onSubmitUserRegister: function () {
+                this.userRegister({
+                    username: this.username,
+                    email: this.email,
+                    givenName: this.givenName,
+                    familyName: this.familyName,
+                    password: this.password
+                })
+            },
+            onSubmitUserLogin: async function () {
+                alert(1)
+                try{
+                    await this.userLogin({
+                        username: this.username,
+                        email: this.email,
+                        password: this.password
+                    })
+                    alert("success")
+                    this.$router.push({path: '/venues'})
+                }catch (e) {
+                    alert("error")
+                }
+            },
+            onMoveToVenue: function () {
+                this.$store.commit(SHOW_LOGIN, {showLogin: false});
+            }
+        },
+        computed:{
+            ...mapState(["showLogin"]),
         }
     }
 </script>
@@ -86,6 +139,9 @@
         text-align: center;
     }
     #register form{
+        padding-top: 80px;
+    }
+    #login form{
         padding-top: 80px;
     }
     button{

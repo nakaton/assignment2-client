@@ -1,5 +1,5 @@
 export default {
-    login: false,
+    showLogin: false,
     pageSize: 12,
     pageLoading: true,
     groupPageVenues:[],
@@ -26,5 +26,13 @@ export default {
         meanStarRating:0,
         modeCostRating:0
     },
-    currentVenueReviews: []
+    currentVenueReviews: [],
+    currentUser:{
+        get UserName(){
+            return localStorage.getItem("currentUser_id");
+        },
+        get UserToken(){
+            return localStorage.getItem("currentUser_token");
+        }
+    }
 }

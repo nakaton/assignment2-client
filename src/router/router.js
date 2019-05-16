@@ -17,7 +17,13 @@ export default new VueRouter({
         },
         {
             path: '/login',
-            component: Login
+            name: 'login',
+            component: Venues
+        },
+        {
+            path: '/register',
+            name: 'register',
+            component: Venues
         },
         {
             path: '/venues',

@@ -8,7 +8,9 @@ import {
     CURRENT_PAGE_VENUES,
     PAGE_LOADING,
     CURRENT_VENUE_DETAIL,
-    CURRENT_VENUE_REVIEWS
+    CURRENT_VENUE_REVIEWS,
+    SHOW_LOGIN,
+    CURRENT_USER
 } from './mutations-types'
 
 export default {
@@ -29,5 +31,12 @@ export default {
     },
     [CURRENT_VENUE_REVIEWS](state, {currentVenueReviews}){
         state.currentVenueReviews = currentVenueReviews
+    },
+    [SHOW_LOGIN](state, {showLogin}){
+        state.showLogin = showLogin
+    },
+    [CURRENT_USER](state, {userId,userToken}){
+        localStorage.setItem("currentUser_id",userId);
+        localStorage.setItem("currentUser_token",userToken);
     }
 }
