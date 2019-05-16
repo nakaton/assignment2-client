@@ -87,14 +87,20 @@
             ...mapActions(['userLogin']),
             ...mapActions(['userRegister']),
 
-            onSubmitUserRegister: function () {
-                this.userRegister({
-                    username: this.username,
-                    email: this.email,
-                    givenName: this.givenName,
-                    familyName: this.familyName,
-                    password: this.password
-                })
+            onSubmitUserRegister: async function () {
+                try {
+                    await this.userRegister({
+                        username: this.username,
+                        email: this.email,
+                        givenName: this.givenName,
+                        familyName: this.familyName,
+                        password: this.password
+                    })
+                    //After successfully register, auto login
+                    this.onSubmitUserLogin()
+                }catch (e) {
+                    console.log(e)
+                }
             },
             onSubmitUserLogin: async function () {
                 try{

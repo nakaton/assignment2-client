@@ -109,12 +109,12 @@ export const reqUserPhoto = function (userId) {
  * @param venueId
  * @param params
  */
-export const registerUser = function (username, email, givenName, familyName, password, params) {
+export const registerUser = function (params) {
     return ajax(base_url + '/users', params, 'POST')
 }
 
 /**
- * Register as a new user.
+ * User Login.
  * @param username
  * @param email
  * @param password
@@ -122,4 +122,12 @@ export const registerUser = function (username, email, givenName, familyName, pa
  */
 export const userLogin = function (params) {
     return ajax(base_url + '/users/login', params, 'POST')
+}
+
+/**
+ * User Logout.
+ * @param params
+ */
+export const userLogout = function (params, header) {
+    return ajax(base_url + '/users/logout', params, 'POST', header)
 }

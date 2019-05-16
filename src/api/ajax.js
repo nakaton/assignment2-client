@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export default function ajax(url = '', params = {}, type = 'GET') {
+export default function ajax(url = '', params = {}, type = 'GET', header = {}) {
     return new Promise(function (resolve, reject) {
         let promise
         if (type === 'GET') {
@@ -20,7 +20,7 @@ export default function ajax(url = '', params = {}, type = 'GET') {
             promise = axios.get(url)
 
         } else {
-            promise = axios.post(url, params)
+            promise = axios.post(url, params, header)
         }
 
         promise.then(response => {

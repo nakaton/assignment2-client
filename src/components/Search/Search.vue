@@ -58,6 +58,7 @@
 </template>
 
 <script>
+    import {mapActions} from 'vuex'
     import {mapState} from 'vuex'
     import {
         CURRENT_USER,
@@ -89,6 +90,8 @@
             }
         },
         methods:{
+            ...mapActions(['userLogout']),
+
             onSubmit: function () {
                 let params = {}
                 if (this.selected){
@@ -104,11 +107,12 @@
                 this.$router.push('/venues');
             },
             onClickLogout: function () {
-                alert("log out")
-                alert(this.currentUser.UserToken)
-                this.$store.commit(CURRENT_USER, {userId: "", userToken:"", isLogin:false});
-                this.$store.commit(LOGIN, {login: false});
-                alert(this.currentUser.UserToken)
+                if(this.currentUser.UserToken != ""){
+                    this.userLogout({headers: {'X-Authorization':this.currentUser.UserToken}})
+                }else{
+                    alert("User already log out")
+                    this.$store.commit(LOGIN, {login: false});
+                }
             }
         },
         computed:{

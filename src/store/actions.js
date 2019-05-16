@@ -7,7 +7,8 @@ import {
     reqVenueReviews,
     reqUserPhoto,
     registerUser,
-    userLogin
+    userLogin,
+    userLogout
 } from '../api/api'
 
 import {
@@ -137,6 +138,28 @@ export default {
     },
 
     /**
+     * User Logout
+     * @param commit
+     * @param params
+     * @returns {Promise<void>}
+     */
+    async userLogout({commit}, params) {
+        commit(PAGE_LOADING, {pageLoading: true})
+        try{
+            // alert(params.headers)
+            const logoutResult = await userLogout({}, params)
+
+            commit(LOGIN, {login: false})
+            commit(CURRENT_USER, {userId: "", userToken:"", isLogin:false})
+            commit(PAGE_LOADING, {pageLoading: false})
+        }catch (e) {
+            console.log(e)
+            throw e
+        }
+
+    },
+
+    /**
      * User Register
      * @param commit
      * @param params
@@ -144,10 +167,15 @@ export default {
      */
     async userRegister({commit}, params) {
         commit(PAGE_LOADING, {pageLoading: true})
-        debugger
-        const registerResult = await registerUser(params)
-        debugger
-        commit(PAGE_LOADING, {pageLoading: false})
+        try {
+            // debugger
+            const userId = await registerUser(params)
+            // debugger
+            commit(PAGE_LOADING, {pageLoading: false})
+        }catch (e) {
+            console.log(e)
+            throw e
+        }
     }
 }
 
