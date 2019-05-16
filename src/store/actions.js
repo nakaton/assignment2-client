@@ -124,11 +124,20 @@ export default {
      */
     async userLogin({commit}, params) {
         commit(PAGE_LOADING, {pageLoading: true})
+
+        let userPhoto  = 'src/pages/Venues/images/default.png';
+
         try{
             const loginResult = await userLogin(params)
+            try{
+                let result = await reqUserPhoto(loginResult.userId);
+                userPhoto  = BASE_URL + '/users/' + loginResult.userId + '/photo';
+            }catch (e) {
+                userPhoto  = 'src/pages/Venues/images/default.png';
+            }
 
             commit(LOGIN, {login: true})
-            commit(CURRENT_USER, {userId: loginResult.userId, userToken:loginResult.token, isLogin:true})
+            commit(CURRENT_USER, {userId: loginResult.userId, userToken:loginResult.token, isLogin:true, userPhoto: userPhoto})
             commit(PAGE_LOADING, {pageLoading: false})
         }catch (e) {
             console.log(e)
@@ -150,7 +159,7 @@ export default {
             const logoutResult = await userLogout({}, params)
 
             commit(LOGIN, {login: false})
-            commit(CURRENT_USER, {userId: "", userToken:"", isLogin:false})
+            commit(CURRENT_USER, {userId: "", userToken:"", userPhoto: 'src/pages/Venues/images/default.png'})
             commit(PAGE_LOADING, {pageLoading: false})
         }catch (e) {
             console.log(e)

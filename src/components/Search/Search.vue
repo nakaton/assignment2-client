@@ -40,7 +40,9 @@
                     <a v-on:click="onClickLogout">Log Out</a>
                 </li>
                 <li>
-                    <div  style="border-radius: 50%; background-color: red; width: 40px; height: 40px; ">User Photo</div>
+                    <div  style="border-radius: 50%; width: 40px; height: 40px; ">
+                        <img :src="currentUser.UserPhoto" style="border-radius: 50%; width: 40px; height: 40px; display: flex;border: 2px solid #EBEBEB"/>
+                    </div>
                 </li>
             </ul>
             <ul v-else>
@@ -48,9 +50,6 @@
                     <router-link :to="{ name : 'login'}">
                         <a>Login</a>
                     </router-link>
-                </li>
-                <li>
-                    <div style="border-radius: 50%; background-color: red; width: 40px; height: 40px; ">User Photo</div>
                 </li>
             </ul>
         </div>
@@ -64,6 +63,7 @@
         CURRENT_USER,
         LOGIN
     } from '../../store/mutations-types'
+
 
     export default {
         name: "Search",

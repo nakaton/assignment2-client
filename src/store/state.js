@@ -36,6 +36,9 @@ export default {
         },
         get UserLoginStatus(){
             return localStorage.getItem("isLogin");
+        },
+        get UserPhoto(){
+            return localStorage.getItem("currentUser_photo");
         }
     }
 }

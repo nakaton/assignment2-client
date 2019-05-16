@@ -35,9 +35,10 @@ export default {
     [LOGIN](state, {login}){
         state.login = login
     },
-    [CURRENT_USER](state, {userId,userToken,isLogin}){
+    [CURRENT_USER](state, {userId,userToken,isLogin,userPhoto}){
         localStorage.setItem("currentUser_id",userId);
         localStorage.setItem("currentUser_token",userToken);
         localStorage.setItem("isLogin",isLogin);
+        localStorage.setItem("currentUser_photo",userPhoto);
     }
 }
