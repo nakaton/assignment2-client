@@ -125,8 +125,6 @@
 
 <script>
     import Search from '../../components/Search/Search.vue'
-    import Pagination from '../../components/Pagination/Pagination.vue'
-    import VenueDetail from '../VenueDetail/VenueDetail.vue'
     import {mapActions} from 'vuex'
     import {mapState} from 'vuex'
     import {
@@ -167,15 +165,18 @@
             }
         },
         mounted (){
-            this.getVenues({pageSize: this.pageSize});
             if(localStorage.getItem("isLogin") == 'true'){
                 // alert("true")
                 this.$store.commit(LOGIN, {login: true});
+
+                let params = {}
+                params.adminId = this.currentUser.UserId
+                params.pageSize = 100 //No need to change page, so set as 100
+                this.getVenues(params);
+
+                this.getCategories({});
             };
 
-            this.getCategories({});
-
-            // this.$router.push('/venues');
         },
         computed:{
             ...mapState(["venues"]),
@@ -192,9 +193,6 @@
             ...mapActions(['patchVenueDetail']),
             ...mapActions(['addVenue']),
 
-            onRouterLinkClick: function (venueId, meanStarRating, modeCostRating) {
-                this.getVenueDetail({id: venueId, meanStarRating: meanStarRating, modeCostRating: modeCostRating});
-            },
             handleRemove(file, fileList) {
                 console.log(file, fileList);
             },
@@ -254,15 +252,24 @@
                     this.patchVenueDetail(params).then(data => {
                         alert("Venue Info update successfully.")
 
+                        //Set latest data into screen
+                        let params = {}
+                        params.adminId = this.currentUser.UserId
+                        params.pageSize = 100 //No need to change page, so set as 100
+                        this.getVenues(params);
                     }).catch(error => {
                         alert(error.response.status + " : " + error.response.statusText)
-                        this.getVenues({})
                     });
 
                 }else{ //Add new Venue
                     this.addVenue(params).then(data =>{
                         alert("Venue add successfully.")
 
+                        //Set latest data into screen
+                        let params = {}
+                        params.adminId = this.currentUser.UserId
+                        params.pageSize = 100 //No need to change page, so set as 100
+                        this.getVenues(params);
                     }).catch(error =>{
                         alert(error.response.status + " : " + error.response.statusText)
                     })
@@ -270,9 +277,8 @@
             }
         },
         components:{
-            Search,
-            Pagination,
-            VenueDetail
+            Search
+
         }
     }
 </script>
