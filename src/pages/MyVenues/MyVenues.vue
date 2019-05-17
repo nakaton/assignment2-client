@@ -4,7 +4,10 @@
         <div style="padding-top: 55px;">
             <h3>My Venues</h3>
             <div style="display:flex; align-items:center; padding-bottom: 5px">
-                <el-button size="small" type="primary">Add New Venue</el-button>
+                <el-button size="small" type="primary"
+                           v-on:click="addNewVenue">
+                    Add New Venue
+                </el-button>
             </div>
         </div>
         <hr>
@@ -40,21 +43,24 @@
                         </div>
                     </div>
                     <div style="display:flex; align-items:center">
-                        <el-button size="small" type="primary">Edit</el-button>
+                        <el-button size="small" type="primary"
+                                   v-on:click="editVenue(item)">
+                            Edit
+                        </el-button>
                     </div>
                 </div>
                 <hr>
             </div>
         </div>
-        <div>
+        <div v-show="isDetailShow">
             <h3>Venue Detail</h3>
             <form>
                 <div class="div-padding" style="display: flex">
                     <div style="display: flex; padding-right: 10px">
-                        <el-input placeholder="Venue Name" v-model="venuename" clearable maxlength="64"></el-input>
+                        <el-input placeholder="Venue Name" v-model="venueName" clearable maxlength="64"></el-input>
                     </div>
                     <div style="display: flex; padding-right: 10px">
-                        <el-select v-model="value" placeholder="City">
+                        <el-select v-model="city" placeholder="City">
                             <el-option
                                 v-for="item in options"
                                 :key="item.value"
@@ -64,12 +70,12 @@
                         </el-select>
                     </div>
                     <div style="display: flex; padding-right: 10px">
-                        <el-select v-model="value" placeholder="Category">
+                        <el-select v-model="category" placeholder="Category">
                             <el-option
-                                v-for="item in options"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
+                                v-for="item in categories"
+                                :key="item.categoryId"
+                                :label="item.categoryName"
+                                :value="item.categoryId">
                             </el-option>
                         </el-select>
                     </div>
@@ -79,8 +85,7 @@
                         type="textarea"
                         autosize
                         placeholder="Short Description"
-                        v-model="textarea1"
-                        clearable>
+                        v-model="shortDescription">
                     </el-input>
                 </div>
                 <div class="div-padding">
@@ -88,8 +93,7 @@
                         type="textarea"
                         :autosize="{ minRows: 3, maxRows: 5}"
                         placeholder="Long Description"
-                        v-model="textarea2"
-                        clearable>
+                        v-model="longDescription">
                     </el-input>
                 </div>
                 <div class="div-padding">
@@ -99,16 +103,16 @@
                     <el-input style="display: flex; padding-right: 10px" placeholder="Latitude" v-model="latitude" clearable></el-input>
                     <el-input placeholder="Longitude" v-model="longitude" clearable></el-input>
                 </div>
-                <div class="div-padding">
+                <div class="div-padding" v-show="isPhotoUploadShow">
                     <el-upload
-                        class="upload-demo"
-                        action="https://jsonplaceholder.typicode.com/posts/"
+                        :action="'http://localhost:4941/api/v1/venues/' + venueId + '/photos'"
                         :on-preview="handlePreview"
                         :on-remove="handleRemove"
                         :file-list="fileList"
-                        list-type="picture">
-                        <el-button size="small" type="primary">点击上传</el-button>
-                        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                        list-type="picture-card"
+                        accept="form-data">
+                        <el-button size="small" type="primary">Upload Photo</el-button>
+                        <div slot="tip" class="el-upload__tip">Please upload jpg/png only, size not over 500kb</div>
                     </el-upload>
                 </div>
                 <div>
@@ -135,7 +139,23 @@
             return{
                 error: "",
                 errorFlg: false,
-                venuename: "",
+                isDetailShow: false,
+                isPhotoUploadShow: false,
+                options: [{
+                    value: 'Christchurch',
+                    label: 'Christchurch'
+                }, {
+                    value: 'New York',
+                    label: 'New York'
+                }, {
+                    value: 'London',
+                    label: 'London'
+                }, {
+                    value: 'Shanghai',
+                    label: 'Shanghai'
+                }],
+                venueId: "",
+                venueName: "",
                 category: "",
                 shortDescription: "",
                 longDescription: "",
@@ -143,7 +163,7 @@
                 address: "",
                 latitude: "",
                 longitude: "",
-                fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}]
+                fileList:[]
             }
         },
         mounted (){
@@ -151,18 +171,26 @@
             if(localStorage.getItem("isLogin") == 'true'){
                 // alert("true")
                 this.$store.commit(LOGIN, {login: true});
-            }
+            };
+
+            this.getCategories({});
+
             // this.$router.push('/venues');
         },
         computed:{
             ...mapState(["venues"]),
             ...mapState(["pageSize"]),
             ...mapState(["currentPageVenues"]),
-            ...mapState(["pageLoading"])
+            ...mapState(["pageLoading"]),
+            ...mapState(["categories"]),
+            ...mapState(["currentUser"])
         },
         methods: {
             ...mapActions(['getVenues']),
             ...mapActions(['getVenueDetail']),
+            ...mapActions(['getCategories']),
+            ...mapActions(['patchVenueDetail']),
+            ...mapActions(['addVenue']),
 
             onRouterLinkClick: function (venueId, meanStarRating, modeCostRating) {
                 this.getVenueDetail({id: venueId, meanStarRating: meanStarRating, modeCostRating: modeCostRating});
@@ -172,6 +200,73 @@
             },
             handlePreview(file) {
                 console.log(file);
+            },
+            addNewVenue: function () {
+                this.isDetailShow = true
+                this.isPhotoUploadShow = false
+
+                this.venueName = ""
+                this.category = ""
+                this.shortDescription = ""
+                this.longDescription = ""
+                this.city = ""
+                this.address = ""
+                this.latitude = ""
+                this.longitude = ""
+            },
+            editVenue: function (item) {
+                this.isDetailShow = true
+                this.isPhotoUploadShow = true
+
+                this.venueId = item.venueId
+                this.venueName = item.venueName
+                this.category = item.categoryId
+                this.shortDescription = item.shortDescription
+                this.longDescription = item.longDescription
+                this.city = item.city
+                this.address = item.address
+                this.latitude = item.latitude
+                this.longitude = item.longitude
+                // this.fileList = item.photos
+                for(let i = 0; i < item.photos.length; i++){
+                    let file = {name: item.photos[i].photoFilename, url: 'http://localhost:4941/api/v1' + '/venues/' + item.venueId + '/photos/' + item.photos[i].photoFilename}
+                    this.fileList.push(file)
+                }
+                // alert(this.fileList)
+            },
+            onSubmitSave: function () {
+                let header = {headers: {'X-Authorization':this.currentUser.UserToken}}
+
+                let params = {
+                    header: header,
+                    "venueId": this.venueId,
+                    "venueName": this.venueName,
+                    "categoryId": this.category,
+                    "city": this.city,
+                    "shortDescription": this.shortDescription,
+                    "longDescription": this.longDescription,
+                    "address": this.address,
+                    "latitude": parseFloat(this.latitude),
+                    "longitude": parseFloat(this.longitude)
+                }
+
+                if (this.isPhotoUploadShow) {//Update Venue
+                    this.patchVenueDetail(params).then(data => {
+                        alert("Venue Info update successfully.")
+
+                    }).catch(error => {
+                        alert(error.response.status + " : " + error.response.statusText)
+                        this.getVenues({})
+                    });
+
+                }else{ //Add new Venue
+                    this.addVenue(params).then(data =>{
+                        alert("Venue add successfully.")
+
+                    }).catch(error =>{
+                        alert(error.response.status + " : " + error.response.statusText)
+                    })
+                }
             }
         },
         components:{

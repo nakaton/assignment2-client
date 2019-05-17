@@ -40,5 +40,6 @@ export default {
         get UserPhoto(){
             return localStorage.getItem("currentUser_photo");
         }
-    }
+    },
+    categories: []
 }

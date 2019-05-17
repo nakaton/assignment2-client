@@ -20,7 +20,11 @@ export default function ajax(url = '', params = {}, type = 'GET', header = {}) {
             promise = axios.get(url)
 
         } else {
-            promise = axios.post(url, params, header)
+            if (type == 'PATCH'){
+                promise = axios.patch(url, params, header)
+            }else {
+                promise = axios.post(url, params, header)
+            }
         }
 
         promise.then(response => {

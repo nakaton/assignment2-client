@@ -8,7 +8,10 @@ import {
     reqUserPhoto,
     registerUser,
     userLogin,
-    userLogout
+    userLogout,
+    reqCategories,
+    patchVenueDetail,
+    postVenues
 } from '../api/api'
 
 import {
@@ -19,7 +22,8 @@ import {
     CURRENT_VENUE_DETAIL,
     CURRENT_VENUE_REVIEWS,
     LOGIN,
-    CURRENT_USER
+    CURRENT_USER,
+    CATEGORIES
 } from './mutations-types'
 
 import {BASE_URL} from '../../config/env'
@@ -49,6 +53,9 @@ export default {
             if (result[i].venueId) {
                 let venueDetail = await reqVenueDetail(result[i].venueId);
                 result[i].categoryName = venueDetail.category.categoryName;
+                result[i].longDescription = venueDetail.longDescription;
+                result[i].address = venueDetail.address;
+                result[i].photos = venueDetail.photos;
             }
         }
 
@@ -181,6 +188,54 @@ export default {
             const userId = await registerUser(params)
             // debugger
             commit(PAGE_LOADING, {pageLoading: false})
+        }catch (e) {
+            console.log(e)
+            throw e
+        }
+    },
+
+    /**
+     * Retrieves all data about venue categories.
+     * @param commit
+     * @returns {Promise<void>}
+     */
+    async getCategories({commit}) {
+        try {
+            const categories = await reqCategories()
+            commit(CATEGORIES, {categories: categories})
+        }catch (e) {
+            console.log(e)
+            throw e
+        }
+    },
+
+    /**
+     * Change a venue's details
+     * @param commit
+     * @returns {Promise<void>}
+     */
+    async patchVenueDetail({commit}, params) {
+        try {
+            const venueId = params.venueId
+            const header = params.header
+
+            const result = await patchVenueDetail(venueId, params, header)
+        }catch (e) {
+            console.log(e)
+            throw e
+        }
+    },
+
+    /**
+     * Add a new venue.
+     * @param commit
+     * @returns {Promise<void>}
+     */
+    async addVenue({commit}, params) {
+        try {
+            const header = params.header
+
+            const venueId = await postVenues(params, header)
         }catch (e) {
             console.log(e)
             throw e

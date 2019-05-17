@@ -19,8 +19,8 @@ export const reqVenues = function (params) {
  * Post venues
  * @param params
  */
-export const postVenues = function (params) {
-    return ajax(base_url + '/venues', params, 'POST')
+export const postVenues = function (params, header) {
+    return ajax(base_url + '/venues', params, 'POST', header)
 }
 
 /**
@@ -35,8 +35,8 @@ export const reqVenueDetail = function (venueId) {
  * Change a venue's details.
  * @param venueId
  */
-export const patchVenueDetail = function (venueId) {
-    return ajax(base_url + '/venues/' + venueId, {}, 'PATCH')
+export const patchVenueDetail = function (venueId, params, header) {
+    return ajax(base_url + '/venues/' + venueId, params, 'PATCH', header)
 }
 
 /**

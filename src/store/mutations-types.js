@@ -9,3 +9,4 @@ export const CURRENT_VENUE_DETAIL = 'current_venue_detail' //Detail for current 
 export const CURRENT_VENUE_REVIEWS = 'current_venue_reviews' //Reviews for current venue
 export const LOGIN = 'login' //login status
 export const CURRENT_USER = 'current_user' //current login user
+export const CATEGORIES = 'categories' //categories

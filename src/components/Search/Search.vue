@@ -110,7 +110,11 @@
             },
             onClickLogout: function () {
                 if(this.currentUser.UserToken != ""){
-                    this.userLogout({headers: {'X-Authorization':this.currentUser.UserToken}})
+                    this.userLogout({headers: {'X-Authorization':this.currentUser.UserToken}}).then(data=>{
+                        this.$router.push({path: '/venues'});
+                    }).catch(error=>{
+                        alert(error.response.status + " : " + error.response.statusText)
+                    })
                 }else{
                     alert("User already log out")
                     this.$store.commit(LOGIN, {login: false});

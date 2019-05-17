@@ -10,7 +10,8 @@ import {
     CURRENT_VENUE_DETAIL,
     CURRENT_VENUE_REVIEWS,
     LOGIN,
-    CURRENT_USER
+    CURRENT_USER,
+    CATEGORIES
 } from './mutations-types'
 
 export default {
@@ -40,5 +41,8 @@ export default {
         localStorage.setItem("currentUser_token",userToken);
         localStorage.setItem("isLogin",isLogin);
         localStorage.setItem("currentUser_photo",userPhoto);
+    },
+    [CATEGORIES](state, {categories}){
+        state.categories = categories
     }
 }
