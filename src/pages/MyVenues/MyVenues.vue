@@ -7,7 +7,8 @@
                 <el-button size="small" type="primary">Add New Venue</el-button>
             </div>
         </div>
-        <div style="border: 1px solid #EBEBEB">
+        <hr>
+        <div>
             <div v-for="item in this.currentPageVenues">
                 <div class="listing-div">
                     <div id="photo" class="thumbnail">
@@ -42,6 +43,7 @@
                         <el-button size="small" type="primary">Edit</el-button>
                     </div>
                 </div>
+                <hr>
             </div>
         </div>
         <div>
@@ -190,7 +192,7 @@
     }
     .listing-div{
         display: grid;
-        border: 1px solid #EBEBEB;
+        border: 1px #EBEBEB;
         grid-template-columns: 25% 60% 15%;
     }
     a{
