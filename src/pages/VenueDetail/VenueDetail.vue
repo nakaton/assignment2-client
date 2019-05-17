@@ -72,6 +72,35 @@
                     <br>
                     <span>{{this.currentVenueDetail.longDescription}}</span>
                 </div>
+
+                <div id="reviewArea" v-show="login">
+                    <hr>
+                    <div class="info description">
+                        <h3>Your Review is?</h3>
+                    </div>
+                    <div class="div-padding" style="display: flex; align-items: center">
+                        <el-tag type="info" size="medium">Star Rate :</el-tag>
+                        <span>&nbsp</span>
+                        <el-rate
+                            v-model="starRating">
+                        </el-rate>
+                        <span>&nbsp&nbsp&nbsp</span>
+                        <el-tag type="info" size="medium">Cost Rate :</el-tag>
+                        <span>&nbsp</span>
+                        <el-input-number size="mini" :min="0" :max="4" :step="1" step-strictly v-model="costRating"></el-input-number>
+                    </div>
+                    <div class="div-padding">
+                        <el-input
+                            type="textarea"
+                            :autosize="{ minRows: 3, maxRows: 5}"
+                            placeholder="Your point of view..."
+                            v-model="reviewBody">
+                        </el-input>
+                    </div>
+                    <div class="div-padding">
+                        <el-button size="small" type="primary"  v-on:click="onSubmitSave()">Save</el-button>
+                    </div>
+                </div>
                 <hr>
                 <div id="venue_reviews" style="display: grid">
                     <div class="info description">
@@ -127,6 +156,7 @@
 </template>
 
 <script>
+    import {mapActions} from 'vuex'
     import {mapState} from 'vuex'
 
     export default {
@@ -137,26 +167,64 @@
                 errorFlg: false,
                 bigPhotoVisible: false,
                 imageSrc: "",
-                photoDescription: ""
+                photoDescription: "",
+                starRating: null,
+                costRating: 0,
+                reviewBody: ""
             }
         },
         mounted (){
 
         },
         methods:{
+            ...mapActions(['postVenueReview']),
+            ...mapActions(['getVenueDetail']),
+
             onRouterLinkClick: function () {
                 this.$parent.showVenues = true;
+                this.reviewBody = "";
+                this.starRating = null;
+                this.costRating = 0;
+            },
+            onSubmitSave: function () {
+                let header = {headers: {'Content-Type':'application/json', 'X-Authorization':this.currentUser.UserToken}}
+
+                let params = {
+                    header: header,
+                    venueId: this.currentVenueDetail.venueId,
+                    review:{
+                        "reviewBody": this.reviewBody,
+                        "starRating": this.starRating,
+                        "costRating": this.costRating
+                    }
+                }
+                this.postVenueReview(params).then(data =>{
+                    alert("Review save successfully.")
+
+                    //Refresh screen
+                    this.reviewBody = "";
+                    this.starRating = null;
+                    this.costRating = 0;
+                    this.getVenueDetail({id: this.currentVenueDetail.venueId, meanStarRating: this.currentVenueDetail.meanStarRating, modeCostRating: this.currentVenueDetail.modeCostRating});
+                }).catch(error =>{
+                    alert(error.response.status + " : " + error.response.statusText)
+                })
             }
         },
         computed:{
             ...mapState(["pageLoading"]),
             ...mapState(["currentVenueDetail"]),
-            ...mapState(["currentVenueReviews"])
+            ...mapState(["currentVenueReviews"]),
+            ...mapState(["login"]),
+            ...mapState(["currentUser"]),
         }
     }
 </script>
 
 <style scoped>
+    .div-padding{
+        padding-bottom: 10px;
+    }
     .listing-container {
         width: 60%;
         margin: 0 auto;

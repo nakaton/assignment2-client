@@ -99,7 +99,7 @@
                     //After successfully register, auto login
                     this.onSubmitUserLogin()
                 }).catch(error => {
-                    alert(error.response.statusText)
+                    alert(error.response.status + " : " + error.response.statusText)
                 });
             },
             onSubmitUserLogin: function () {
@@ -111,7 +111,7 @@
                     // alert("success")
                     this.$router.push({path: '/venues'})
                 }).catch(error => {
-                    alert(error.response.statusText)
+                    alert(error.response.status + " : " + error.response.statusText)
                 });
             }
         },

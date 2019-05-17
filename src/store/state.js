@@ -6,6 +6,7 @@ export default {
     currentPageVenues: [],
     venues: [],
     currentVenueDetail:{
+        venueId: null,
         venueName:"",
         admin:{
             userId:"",

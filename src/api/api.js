@@ -94,6 +94,14 @@ export const reqVenueReviews = function (venueId) {
     return ajax(base_url + '/venues/' + venueId + '/reviews')
 }
 
+/**
+ * Post a review for a venue.
+ * @param venueId
+ */
+export const postVenueReview = function (venueId, params, header) {
+    return ajax(base_url + '/venues/' + venueId + '/reviews', params, 'POST', header)
+}
+
 // User Photos
 /**
  * Retrieve a user's profile photo.

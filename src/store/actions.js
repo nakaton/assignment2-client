@@ -11,7 +11,8 @@ import {
     userLogout,
     reqCategories,
     patchVenueDetail,
-    postVenues
+    postVenues,
+    postVenueReview
 } from '../api/api'
 
 import {
@@ -90,6 +91,7 @@ export default {
         const venueDetail = await reqVenueDetail(venueId);
 
         if (venueDetail){
+            venueDetail.venueId = venueId;
             venueDetail.meanStarRating = starRate;
             venueDetail.modeCostRating = costRate;
 
@@ -236,6 +238,24 @@ export default {
             const header = params.header
 
             const venueId = await postVenues(params, header)
+        }catch (e) {
+            console.log(e)
+            throw e
+        }
+    },
+
+    /**
+     * Post a review for a venue.
+     * @param commit
+     * @returns {Promise<void>}
+     */
+    async postVenueReview({commit}, params) {
+        try {
+            const venueId = params.venueId
+            const header = params.header
+            const review = params.review
+
+            const result = await postVenueReview(venueId, review, header)
         }catch (e) {
             console.log(e)
             throw e
