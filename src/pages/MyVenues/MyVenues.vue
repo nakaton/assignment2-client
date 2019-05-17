@@ -225,7 +225,7 @@
                 this.address = item.address
                 this.latitude = item.latitude
                 this.longitude = item.longitude
-                // this.fileList = item.photos
+                this.fileList = []
                 for(let i = 0; i < item.photos.length; i++){
                     let file = {name: item.photos[i].photoFilename, url: 'http://localhost:4941/api/v1' + '/venues/' + item.venueId + '/photos/' + item.photos[i].photoFilename}
                     this.fileList.push(file)
