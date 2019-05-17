@@ -65,7 +65,7 @@
                     <span>&nbsp;{{this.currentVenueDetail.dateAdded}}</span>
                 </div>
                 <hr>
-                <div style="padding-bottom: 10px" class="info description">
+                <div style="padding-bottom: 10px; word-wrap:break-word;" class="info description">
                     <h3>About this venue</h3>
                     <span>{{this.currentVenueDetail.shortDescription}}</span>
                     <br>
