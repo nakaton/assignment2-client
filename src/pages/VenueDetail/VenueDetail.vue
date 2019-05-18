@@ -117,14 +117,22 @@
                                         <td>
                                             <el-popover
                                                 placement="top-start"
-                                                width="450"
+                                                width="300"
                                                 trigger="click">
 
-                                                <el-table :data="[review.reviewAuthor]">
-                                                    <el-table-column width="150" label="User Name">{{review.reviewAuthor.username}}</el-table-column>
-                                                    <el-table-column width="150" label="Given Name">{{review.reviewAuthor.givenName}}</el-table-column>
-                                                    <el-table-column width="150" label="Family Name">{{review.reviewAuthor.familyName}}</el-table-column>
-                                                </el-table>
+                                                <el-card :body-style="{ padding: '0px' }">
+                                                    <img :src="review.userPhotoSrc" class="reviewUserPhoto"/>
+                                                    <div style="padding: 14px;">
+                                                        <el-tag type="info" size="mini">User Name:&nbsp;&nbsp;&nbsp;</el-tag>
+                                                        <span>{{review.reviewAuthor.username}}</span>
+                                                        <hr>
+                                                        <el-tag type="info" size="mini">Given Name:&nbsp;</el-tag>
+                                                        <span>{{review.reviewAuthor.givenName}}</span>
+                                                        <hr>
+                                                        <el-tag type="info" size="mini">Family Name: </el-tag>
+                                                        <span>{{review.reviewAuthor.familyName}}</span>
+                                                    </div>
+                                                </el-card>
                                                 <span slot="reference">&nbsp;{{review.reviewAuthor.username}}</span>
                                             </el-popover>
                                         </td>
@@ -292,6 +300,12 @@
         /*background-size: cover;*/
         background-position: 100%;
         border-radius: 4px
+    }
+    .reviewUserPhoto{
+        width: 298px;
+        height: 300px;
+        border-radius: 5px;
+        border: 1px solid #EBEBEB !important;
     }
     .back-button {
         position: fixed;
