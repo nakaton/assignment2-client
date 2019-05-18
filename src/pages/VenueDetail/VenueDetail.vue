@@ -112,10 +112,21 @@
                                 <img :src="review.userPhotoSrc" style="border-radius: 50%; width: 40px; height: 40px; display: flex"/>
                             </div>
                             <div>
-                                <div style="padding-bottom: 5px">
+                                <div style="padding-bottom: 5px; cursor: pointer">
                                     <tr>
                                         <td>
-                                            <span>&nbsp;{{review.reviewAuthor.username}}</span>
+                                            <el-popover
+                                                placement="top-start"
+                                                width="450"
+                                                trigger="click">
+
+                                                <el-table :data="[review.reviewAuthor]">
+                                                    <el-table-column width="150" label="User Name">{{review.reviewAuthor.username}}</el-table-column>
+                                                    <el-table-column width="150" label="Given Name">{{review.reviewAuthor.givenName}}</el-table-column>
+                                                    <el-table-column width="150" label="Family Name">{{review.reviewAuthor.familyName}}</el-table-column>
+                                                </el-table>
+                                                <span slot="reference">&nbsp;{{review.reviewAuthor.username}}</span>
+                                            </el-popover>
                                         </td>
                                     </tr>
                                 </div>

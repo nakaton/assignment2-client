@@ -112,11 +112,30 @@ export default {
         let venueReviews = await reqVenueReviews(venueId);
 
         for (let i = 0; i < venueReviews.length; i++) {
+
+            //Get Reviewer Photo
             try{
                 let userPhoto = await reqUserPhoto(venueReviews[i].reviewAuthor.userId);
                 venueReviews[i].userPhotoSrc = BASE_URL + '/users/' + venueReviews[i].reviewAuthor.userId + '/photo';
             }catch (e) {
                 venueReviews[i].userPhotoSrc = 'src/pages/Venues/images/default.png';
+            }
+            //Get Reviewer Profile
+            try{
+                let header = {
+                    headers: {'X-Authorization':null}
+                }
+
+                let paramsForProfile = {
+                    id: venueReviews[i].reviewAuthor.userId
+                }
+                const userProfile = await reqUser(venueReviews[i].reviewAuthor.userId, paramsForProfile, header)
+                venueReviews[i].reviewAuthor.givenName = userProfile.givenName
+                venueReviews[i].reviewAuthor.familyName = userProfile.familyName
+                venueReviews[i].reviewAuthor.email = userProfile.email
+
+            }catch (e) {
+
             }
         }
 
