@@ -53,8 +53,8 @@ export const reqCategories = function () {
  * @param venueId
  * @param params
  */
-export const postVenuesPhoto = function (venueId, params) {
-    return ajax(base_url + '/venues/' + venueId + '/photos', params, 'POST')
+export const postVenuesPhoto = function (venueId, params, header) {
+    return ajax(base_url + '/venues/' + venueId + '/photos', params, 'POST', header)
 }
 
 /**
@@ -71,8 +71,8 @@ export const reqVenuePhoto = function (venueId, photoFilename) {
  * @param venueId
  * @param photoFilename
  */
-export const deleteVenuesPhoto = function (venueId, photoFilename) {
-    return ajax(base_url + '/venues/' + venueId + '/photos/' + photoFilename, {}, 'DELETE')
+export const deleteVenuesPhoto = function (venueId, photoFilename, header) {
+    return ajax(base_url + '/venues/' + venueId + '/photos/' + photoFilename, {}, 'DELETE', header)
 }
 
 /**

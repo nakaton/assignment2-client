@@ -13,7 +13,7 @@
             </div>
         </div>
         <hr>
-        <div>
+        <div  v-if="isListShow">
             <div v-for="item in this.currentPageVenues">
                 <div class="listing-div">
                     <div id="photo" class="thumbnail">
@@ -56,7 +56,7 @@
                 <hr>
             </div>
         </div>
-        <div v-show="isDetailShow" id="venueDetail">
+        <div v-if="isDetailShow" id="venueDetail">
             <h3>Venue Detail</h3>
             <form>
                 <div class="div-padding" style="display: flex">
@@ -109,12 +109,11 @@
                 </div>
                 <div class="div-padding" v-show="isPhotoUploadShow">
                     <el-upload
-                        :action="'http://localhost:4941/api/v1/venues/' + venueId + '/photos'"
-                        :on-preview="handlePreview"
+                        :action="venuePhotoUploadUrl"
                         :on-remove="handleRemove"
                         :file-list="fileList"
                         list-type="picture-card"
-                        accept="form-data">
+                        :http-request="venuePhotoUpload">
                         <el-button size="small" type="primary">Upload Photo</el-button>
                         <div slot="tip" class="el-upload__tip">Please upload jpg/png only, size not over 20MB</div>
                     </el-upload>
@@ -141,8 +140,10 @@
             return{
                 error: "",
                 errorFlg: false,
+                isListShow: true,
                 isDetailShow: false,
                 isPhotoUploadShow: false,
+                venuePhotoUploadUrl: "",
                 options: [{
                     value: 'Christchurch',
                     label: 'Christchurch'
@@ -165,6 +166,8 @@
                 address: "",
                 latitude: "",
                 longitude: "",
+                photoDescription: "",
+                makePrimary: false,
                 fileList:[]
             }
         },
@@ -196,12 +199,48 @@
             ...mapActions(['getCategories']),
             ...mapActions(['patchVenueDetail']),
             ...mapActions(['addVenue']),
+            ...mapActions(['uploadVenuePhoto']),
 
             handleRemove(file, fileList) {
                 console.log(file, fileList);
             },
             handlePreview(file) {
                 console.log(file);
+            },
+            forceRefresh: function () {
+                this.isListShow = false
+                this.$nextTick(()=>{
+                    this.isListShow = true
+                });
+            },
+            venuePhotoUpload: function (options) {
+                alert("venuePhotoUpload")
+                let file = options.file
+                let fileName = file.name
+
+                let formData = new window.FormData()
+                formData.append('photo', file)
+                formData.append('description', this.photoDescription)
+                formData.append('makePrimary', this.makePrimary)
+
+                let header = {headers: {'Content-Type':'multipart/form-data', 'X-Authorization':this.currentUser.UserToken}}
+
+                let params = {
+                    header: header,
+                    venueId: this.venueId,
+                    formData: formData
+                }
+
+                this.uploadVenuePhoto(params).then(data =>{
+                    let params = {}
+                    params.adminId = this.currentUser.UserId
+                    params.pageSize = 100 //No need to change page, so set as 100
+                    this.getVenues(params).then(data=>{
+                        this.forceRefresh()
+                    })
+                }).catch(error => {
+                    alert(error.response.status + " : " + error.response.statusText)
+                })
             },
             addNewVenue: function () {
                 this.isDetailShow = true
@@ -229,12 +268,7 @@
                 this.address = item.address
                 this.latitude = item.latitude
                 this.longitude = item.longitude
-                this.fileList = []
-                for(let i = 0; i < item.photos.length; i++){
-                    let file = {name: item.photos[i].photoFilename, url: 'http://localhost:4941/api/v1' + '/venues/' + item.venueId + '/photos/' + item.photos[i].photoFilename}
-                    this.fileList.push(file)
-                }
-                // alert(this.fileList)
+                this.fileList = item.photos
             },
             onSubmitSave: function () {
                 let header = {headers: {'X-Authorization':this.currentUser.UserToken}}

@@ -16,7 +16,9 @@ import {
     reqUser,
     patchUserDetail,
     uploadUserPhoto,
-    deleteUserPhoto
+    deleteUserPhoto,
+    postVenuesPhoto,
+    deleteVenuesPhoto
 } from '../api/api'
 
 import {
@@ -60,7 +62,15 @@ export default {
                 result[i].categoryName = venueDetail.category.categoryName;
                 result[i].longDescription = venueDetail.longDescription;
                 result[i].address = venueDetail.address;
-                result[i].photos = venueDetail.photos;
+
+                let photos = []
+                for(let j =0; j< venueDetail.photos.length; j++) {
+                    const name = venueDetail.photos[j].photoFilename;
+                    const url = BASE_URL + '/venues/' + result[i].venueId + '/photos/' + venueDetail.photos[j].photoFilename;
+                    photos.push({name: name, url: url})
+                }
+                result[i].photos = photos
+
             }
         }
 
@@ -347,6 +357,42 @@ export default {
             const header = params.header
 
             const result = await deleteUserPhoto(userId, {}, header)
+        }catch (e) {
+            console.log(e)
+            throw e
+        }
+    },
+
+    /**
+     * Add a photo to a venue.
+     * @param commit
+     * @returns {Promise<void>}
+     */
+    async uploadVenuePhoto({commit}, params) {
+        try {
+            const venueId = params.venueId
+            const header = params.header
+            const formData = params.formData
+
+            const result = await postVenuesPhoto(venueId, formData, header)
+        }catch (e) {
+            console.log(e)
+            throw e
+        }
+    },
+
+    /**
+     * Delete a venue's photo.
+     * @param commit
+     * @returns {Promise<void>}
+     */
+    async deleteVenuePhoto({commit}, params) {
+        try {
+            const venueId = params.venueId
+            const photoFilename = params.photoFilename
+            const header = params.header
+
+            const result = await deleteVenuesPhoto(venueId, photoFilename, header)
         }catch (e) {
             console.log(e)
             throw e
