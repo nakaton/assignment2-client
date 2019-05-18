@@ -231,6 +231,24 @@ export default {
     },
 
     /**
+     * Change a user's details.
+     * @param commit
+     * @returns {Promise<void>}
+     */
+    async patchUserDetail({commit}, params) {
+        try {
+            const userId = params.userId
+            const header = params.header
+            const profile = params.profile
+
+            const result = await patchUserDetail(userId, profile, header)
+        }catch (e) {
+            console.log(e)
+            throw e
+        }
+    },
+
+    /**
      * Retrieves all data about venue categories.
      * @param commit
      * @returns {Promise<void>}

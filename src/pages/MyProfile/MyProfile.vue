@@ -27,10 +27,10 @@
                     </span>
                 </div>
                 <div class="div-padding">
-                    <el-input placeholder="Current Password" v-model="currentPassword" clearable></el-input>
+                    <el-input placeholder="Current Password" v-model="currentPassword" clearable show-password></el-input>
                 </div>
                 <div class="div-padding">
-                    <el-input placeholder="New Password" v-model="newPassword" clearable></el-input>
+                    <el-input placeholder="New Password" v-model="newPassword" clearable show-password></el-input>
                 </div>
                 <div class="div-padding" v-show="isPhotoUploadShow">
                     <el-upload
@@ -45,7 +45,7 @@
                     </el-upload>
                 </div>
                 <div>
-                    <el-button size="small" type="primary"  v-on:click="onSubmitSave()">Update</el-button>
+                    <el-button size="small" type="primary"  v-on:click="onSubmitUpdate()">Update</el-button>
                 </div>
             </form>
         </div>
@@ -91,7 +91,9 @@
             ...mapState(["currentUser"])
         },
         methods: {
+            ...mapActions(['userLogin']),
             ...mapActions(['getVenues']),
+            ...mapActions(['patchUserDetail']),
 
             handleRemove(file, fileList) {
                 console.log(file, fileList);
@@ -99,47 +101,52 @@
             handlePreview(file) {
                 console.log(file);
             },
-            onSubmitSave: function () {
-                let header = {headers: {'X-Authorization':this.currentUser.UserToken}}
+            onSubmitUpdate: function () {
+                let header = {headers: {'Content-Type':'application/json', 'X-Authorization':this.currentUser.UserToken}}
 
                 let params = {
                     header: header,
-                    "venueId": this.venueId,
-                    "venueName": this.venueName,
-                    "categoryId": this.category,
-                    "city": this.city,
-                    "shortDescription": this.shortDescription,
-                    "longDescription": this.longDescription,
-                    "address": this.address,
-                    "latitude": parseFloat(this.latitude),
-                    "longitude": parseFloat(this.longitude)
-                }
+                    userId: this.currentUser.UserId,
+                    profile:{
+                        "givenName": this.givenName,
+                        "familyName": this.familyName,
+                        "password": this.newPassword == "" ? undefined : this.newPassword
+                    }
+                };
 
-                if (this.isPhotoUploadShow) {//Update Venue
-                    this.patchVenueDetail(params).then(data => {
-                        alert("Venue Info update successfully.")
+                if (this.newPassword != "") {
+                    if (this.currentPassword == "") {
+                        alert("Please input Current Password!")
+                    }else{
+                        this.userLogin({
+                            username: this.username,
+                            email: this.email,
+                            password: this.currentPassword
+                        }).then(data => {
+                            // alert("CurrentPassword Correct")
 
-                        //Set latest data into screen
-                        let params = {}
-                        params.adminId = this.currentUser.UserId
-                        params.pageSize = 100 //No need to change page, so set as 100
-                        this.getVenues(params);
+                            // Because Login successfully, token changed
+                            let header = {headers: {'Content-Type':'application/json', 'X-Authorization':this.currentUser.UserToken}}
+                            params.header = header
+                            this.patchUserDetail(params).then(data => {
+                                alert("Your Profile update successfully.")
+                                localStorage.setItem("givenName",this.givenName);
+                                localStorage.setItem("familyName",this.familyName);
+                            }).catch(error => {
+                                alert(error.response.status + " : " + error.response.statusText)
+                            });
+                        }).catch(error => {
+                            alert("CurrentPassword incorrect!")
+                        });
+                    }
+                }else{
+                    this.patchUserDetail(params).then(data => {
+                        alert("Your Profile update successfully.")
+                        localStorage.setItem("givenName",this.givenName);
+                        localStorage.setItem("familyName",this.familyName);
                     }).catch(error => {
                         alert(error.response.status + " : " + error.response.statusText)
                     });
-
-                }else{ //Add new Venue
-                    this.addVenue(params).then(data =>{
-                        alert("Venue add successfully.")
-
-                        //Set latest data into screen
-                        let params = {}
-                        params.adminId = this.currentUser.UserId
-                        params.pageSize = 100 //No need to change page, so set as 100
-                        this.getVenues(params);
-                    }).catch(error =>{
-                        alert(error.response.status + " : " + error.response.statusText)
-                    })
                 }
             }
         },

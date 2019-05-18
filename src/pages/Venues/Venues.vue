@@ -25,7 +25,7 @@
                                         <div class="info description star-div">Star Rate:</div>
                                         <div class="star-div">
                                             <el-rate
-                                                v-model="item.meanStarRating"
+                                                v-model="item.meanStarRating || 3"
                                                 disabled
                                                 text-color="#909399">
                                             </el-rate>
