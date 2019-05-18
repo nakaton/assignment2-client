@@ -36,11 +36,15 @@ export default {
     [LOGIN](state, {login}){
         state.login = login
     },
-    [CURRENT_USER](state, {userId,userToken,isLogin,userPhoto}){
+    [CURRENT_USER](state, {userId,userToken,isLogin,userPhoto,userName,givenName,familyName,email}){
         localStorage.setItem("currentUser_id",userId);
         localStorage.setItem("currentUser_token",userToken);
         localStorage.setItem("isLogin",isLogin);
         localStorage.setItem("currentUser_photo",userPhoto);
+        localStorage.setItem("userName",userName);
+        localStorage.setItem("givenName",givenName);
+        localStorage.setItem("familyName",familyName);
+        localStorage.setItem("email",email);
     },
     [CATEGORIES](state, {categories}){
         state.categories = categories

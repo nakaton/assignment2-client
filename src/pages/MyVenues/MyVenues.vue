@@ -132,7 +132,7 @@
     } from '../../store/mutations-types'
 
     export default {
-        name: "Venues",
+        name: "MyVenues",
         data (){
             return{
                 error: "",

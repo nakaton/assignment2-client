@@ -113,6 +113,22 @@ export const reqUserPhoto = function (userId) {
 
 // User
 /**
+ * Retrieve information about a user.
+ * @param userId
+ */
+export const reqUser = function (userId, params, header) {
+    return ajax(base_url + '/users/' + userId, params, 'GET', header)
+}
+
+/**
+ * Change a user's details.
+ * @param userId
+ */
+export const patchUserDetail = function (userId, params, header) {
+    return ajax(base_url + '/users/' + userId, params, 'PATCH', header)
+}
+
+/**
  * Register as a new user.
  * @param venueId
  * @param params

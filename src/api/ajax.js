@@ -17,7 +17,7 @@ export default function ajax(url = '', params = {}, type = 'GET', header = {}) {
             }
 
             // Send GET request
-            promise = axios.get(url)
+            promise = axios.get(url, header)
 
         } else {
             if (type == 'PATCH'){

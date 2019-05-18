@@ -40,7 +40,19 @@ export default {
         },
         get UserPhoto(){
             return localStorage.getItem("currentUser_photo");
+        },
+        get UserName() {
+            return localStorage.getItem("userName");
+        },
+        get GivenName() {
+            return localStorage.getItem("givenName");
+        },
+        get FamilyName() {
+            return localStorage.getItem("familyName");
+        },
+        get Email() {
+            return localStorage.getItem("email");
         }
     },
-    categories: []
+    categories: [],
 }

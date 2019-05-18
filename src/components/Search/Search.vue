@@ -36,7 +36,9 @@
                     </router-link>
                 </li>
                 <li>
-                    <a href="/login">My Profile</a>
+                    <router-link :to="{ name : 'myProfile'}">
+                        <a>My Profile</a>
+                    </router-link>
                 </li>
                 <li>
                     <a v-on:click="onClickLogout">Log Out</a>

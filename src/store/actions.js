@@ -12,7 +12,9 @@ import {
     reqCategories,
     patchVenueDetail,
     postVenues,
-    postVenueReview
+    postVenueReview,
+    reqUser,
+    patchUserDetail
 } from '../api/api'
 
 import {
@@ -145,8 +147,20 @@ export default {
                 userPhoto  = 'src/pages/Venues/images/default.png';
             }
 
+            //Get login user profile
+            let header = {
+                headers: {'X-Authorization':loginResult.token}
+            }
+
+            let paramsForProfile = {
+                id: loginResult.userId
+            }
+            const userProfile = await reqUser(loginResult.userId, paramsForProfile, header)
+
             commit(LOGIN, {login: true})
-            commit(CURRENT_USER, {userId: loginResult.userId, userToken:loginResult.token, isLogin:true, userPhoto: userPhoto})
+            commit(CURRENT_USER, {userId: loginResult.userId, userToken:loginResult.token,
+                isLogin:true, userPhoto: userPhoto, userName: userProfile.username,
+                givenName: userProfile.givenName, familyName: userProfile.familyName, email: userProfile.email})
             commit(PAGE_LOADING, {pageLoading: false})
         }catch (e) {
             console.log(e)
@@ -168,7 +182,8 @@ export default {
             const logoutResult = await userLogout({}, params)
 
             commit(LOGIN, {login: false})
-            commit(CURRENT_USER, {userId: "", userToken:"", userPhoto: 'src/pages/Venues/images/default.png'})
+            commit(CURRENT_USER, {userId: "", userToken:"", userPhoto: 'src/pages/Venues/images/default.png',
+                userName: "", givenName: "", familyName: "", email: ""})
             commit(PAGE_LOADING, {pageLoading: false})
         }catch (e) {
             console.log(e)
