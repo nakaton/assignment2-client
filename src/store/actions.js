@@ -14,7 +14,9 @@ import {
     postVenues,
     postVenueReview,
     reqUser,
-    patchUserDetail
+    patchUserDetail,
+    uploadUserPhoto,
+    deleteUserPhoto
 } from '../api/api'
 
 import {
@@ -308,6 +310,43 @@ export default {
             const review = params.review
 
             const result = await postVenueReview(venueId, review, header)
+        }catch (e) {
+            console.log(e)
+            throw e
+        }
+    },
+
+    /**
+     * Set a user's profile photo.
+     * @param commit
+     * @returns {Promise<void>}
+     */
+    async uploadUserPhoto({commit}, params) {
+        try {
+            const userId = params.userId
+            const header = params.header
+            const file = params.file
+
+            const result = await uploadUserPhoto(userId, file, header)
+            const userPhoto = BASE_URL + '/users/' + userId + '/photo'
+            localStorage.setItem("currentUser_photo", userPhoto)
+        }catch (e) {
+            console.log(e)
+            throw e
+        }
+    },
+
+    /**
+     * Delete a user's profile photo.
+     * @param commit
+     * @returns {Promise<void>}
+     */
+    async deleteUserPhoto({commit}, params) {
+        try {
+            const userId = params.userId
+            const header = params.header
+
+            const result = await deleteUserPhoto(userId, {}, header)
         }catch (e) {
             console.log(e)
             throw e

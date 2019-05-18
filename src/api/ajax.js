@@ -22,7 +22,11 @@ export default function ajax(url = '', params = {}, type = 'GET', header = {}) {
         } else {
             if (type == 'PATCH'){
                 promise = axios.patch(url, params, header)
-            }else {
+            } else if (type == 'PUT') {
+                promise = axios.put(url, params, header)
+            } else if (type == 'DELETE') {
+                promise = axios.delete(url, header)
+            } else {
                 promise = axios.post(url, params, header)
             }
         }

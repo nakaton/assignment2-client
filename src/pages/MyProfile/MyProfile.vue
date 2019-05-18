@@ -1,6 +1,6 @@
 <template>
     <div class="listing-container">
-        <Search/>
+        <Search v-if="isSearchShow"/>
         <div style="padding-top: 55px;">
             <h3>My Profile</h3>
         </div>
@@ -34,14 +34,14 @@
                 </div>
                 <div class="div-padding" v-show="isPhotoUploadShow">
                     <el-upload
-                        :action="'http://localhost:4941/api/v1/users/' + this.currentUser.UserId + '/photos'"
-                        :on-preview="handlePreview"
+                        :action="userPhotoUploadUrl"
                         :on-remove="handleRemove"
                         :file-list="fileList"
                         list-type="picture-card"
-                        accept="form-data">
+                        accept="form-data"
+                        :http-request="photoUpload">
                         <el-button size="small" type="primary">Upload Photo</el-button>
-                        <div slot="tip" class="el-upload__tip">Please upload jpg/png only, size not over 500kb</div>
+                        <div slot="tip" class="el-upload__tip">Please upload jpg/png only, size not over 20MB</div>
                     </el-upload>
                 </div>
                 <div>
@@ -66,7 +66,9 @@
             return{
                 error: "",
                 errorFlg: false,
-                isPhotoUploadShow: false,
+                isSearchShow: true,
+                isPhotoUploadShow: true,
+                userPhotoUploadUrl: "",
                 userName: "",
                 givenName: "",
                 familyName: "",
@@ -84,6 +86,11 @@
                 this.email = this.currentUser.Email
                 // alert("true")
                 this.$store.commit(LOGIN, {login: true});
+
+                let file = {name: "user photo", url: this.currentUser.UserPhoto}
+                if (this.currentUser.UserPhoto != 'src/pages/Venues/images/default.png') {
+                    this.fileList.push(file);
+                }
             };
 
         },
@@ -94,12 +101,56 @@
             ...mapActions(['userLogin']),
             ...mapActions(['getVenues']),
             ...mapActions(['patchUserDetail']),
+            ...mapActions(['uploadUserPhoto']),
+            ...mapActions(['deleteUserPhoto']),
+
+            forceRefresh: function () {
+                this.isSearchShow = false
+                this.$nextTick(()=>{
+                    this.isSearchShow = true
+                });
+            },
 
             handleRemove(file, fileList) {
-                console.log(file, fileList);
+                alert("remove")
+                let header = {headers: {'X-Authorization':this.currentUser.UserToken}}
+
+                let params = {
+                    header: header,
+                    userId: this.currentUser.UserId
+                };
+
+                this.deleteUserPhoto(params).then(data => {
+                    localStorage.setItem("currentUser_photo",'src/pages/Venues/images/default.png')
+                    this.fileList = []
+                    this.forceRefresh()
+                }).catch(error =>{
+                    alert(error.response.status + " : " + error.response.statusText)
+                })
+
             },
-            handlePreview(file) {
-                console.log(file);
+            photoUpload: function (options) {
+                let file = options.file
+                let fileName = file.name
+                let fileType = file.type
+
+                let header = {headers: {'Content-Type':fileType, 'X-Authorization':this.currentUser.UserToken}}
+
+                let params = {
+                    header: header,
+                    userId: this.currentUser.UserId,
+                    file: file
+                };
+
+                this.uploadUserPhoto(params).then(data =>{
+                    this.fileList = []
+                    let file = {name: "user photo", url: this.currentUser.UserPhoto}
+                    this.fileList.push(file)
+
+                    this.forceRefresh()
+                }).catch(error => {
+                    alert(error.response.status + " : " + error.response.statusText)
+                })
             },
             onSubmitUpdate: function () {
                 let header = {headers: {'Content-Type':'application/json', 'X-Authorization':this.currentUser.UserToken}}

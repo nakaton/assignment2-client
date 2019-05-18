@@ -116,7 +116,7 @@
                         list-type="picture-card"
                         accept="form-data">
                         <el-button size="small" type="primary">Upload Photo</el-button>
-                        <div slot="tip" class="el-upload__tip">Please upload jpg/png only, size not over 500kb</div>
+                        <div slot="tip" class="el-upload__tip">Please upload jpg/png only, size not over 20MB</div>
                     </el-upload>
                 </div>
                 <div>

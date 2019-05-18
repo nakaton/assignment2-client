@@ -111,6 +111,22 @@ export const reqUserPhoto = function (userId) {
     return ajax(base_url + '/users/' + userId +'/photo')
 }
 
+/**
+ * Set a user's profile photo.
+ * @param userId
+ */
+export const uploadUserPhoto = function (userId, params, header) {
+    return ajax(base_url + '/users/' + userId +'/photo', params, 'PUT', header)
+}
+
+/**
+ * Delete a user's profile photo.
+ * @param userId
+ */
+export const deleteUserPhoto = function (userId, params, header) {
+    return ajax(base_url + '/users/' + userId +'/photo', params, 'DELETE', header)
+}
+
 // User
 /**
  * Retrieve information about a user.
