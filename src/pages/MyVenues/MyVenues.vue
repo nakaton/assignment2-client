@@ -4,10 +4,12 @@
         <div style="padding-top: 55px;">
             <h3>My Venues</h3>
             <div style="display:flex; align-items:center; padding-bottom: 5px">
-                <el-button size="small" type="primary"
-                           v-on:click="addNewVenue">
-                    Add New Venue
-                </el-button>
+                <a href="#venueDetail">
+                    <el-button size="small" type="primary"
+                               v-on:click="addNewVenue">
+                        Add New Venue
+                    </el-button>
+                </a>
             </div>
         </div>
         <hr>
@@ -43,16 +45,18 @@
                         </div>
                     </div>
                     <div style="display:flex; align-items:center">
-                        <el-button size="small" type="primary"
-                                   v-on:click="editVenue(item)">
-                            Edit
-                        </el-button>
+                        <a href="#venueDetail">
+                            <el-button size="small" type="primary"
+                                       v-on:click="editVenue(item)">
+                                Edit
+                            </el-button>
+                        </a>
                     </div>
                 </div>
                 <hr>
             </div>
         </div>
-        <div v-show="isDetailShow">
+        <div v-show="isDetailShow" id="venueDetail">
             <h3>Venue Detail</h3>
             <form>
                 <div class="div-padding" style="display: flex">
