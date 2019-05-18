@@ -36,7 +36,7 @@
                     </router-link>
                 </li>
                 <li>
-                    <a href="/login">Personal</a>
+                    <a href="/login">My Profile</a>
                 </li>
                 <li>
                     <a v-on:click="onClickLogout">Log Out</a>
