@@ -46,7 +46,7 @@
                     </div>
                     <div class="star-div">
                         <el-rate
-                            :value="this.currentVenueDetail.meanStarRating"
+                            :value="this.currentVenueDetail.meanStarRating || 3"
                             disabled
                             text-color="#909399">
                         </el-rate>
