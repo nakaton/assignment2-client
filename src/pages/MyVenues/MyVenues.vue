@@ -200,21 +200,36 @@
             ...mapActions(['patchVenueDetail']),
             ...mapActions(['addVenue']),
             ...mapActions(['uploadVenuePhoto']),
+            ...mapActions(['deleteVenuePhoto']),
 
-            handleRemove(file, fileList) {
-                console.log(file, fileList);
-            },
-            handlePreview(file) {
-                console.log(file);
-            },
             forceRefresh: function () {
                 this.isListShow = false
                 this.$nextTick(()=>{
                     this.isListShow = true
                 });
             },
+            handleRemove(file, fileList) {
+                alert("remove")
+                let header = {headers: {'X-Authorization':this.currentUser.UserToken}}
+                let params = {
+                    header: header,
+                    venueId: this.venueId,
+                    photoFilename: file.name
+                };
+
+                this.deleteVenuePhoto(params).then(data => {
+                    let params = {}
+                    params.adminId = this.currentUser.UserId
+                    params.pageSize = 100 //No need to change page, so set as 100
+                    this.getVenues(params).then(data=>{
+                        this.forceRefresh()
+                    })
+                }).catch(error =>{
+                    alert(error.response.status + " : " + error.response.statusText)
+                })
+
+            },
             venuePhotoUpload: function (options) {
-                alert("venuePhotoUpload")
                 let file = options.file
                 let fileName = file.name
 
