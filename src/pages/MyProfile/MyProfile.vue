@@ -8,16 +8,29 @@
         <div>
             <form>
                 <div class="div-padding">
-                    <el-input placeholder="User Name" v-model="userName" clearable maxlength="64"></el-input>
+                    <el-input placeholder="User Name" v-model="userName" :disabled="true" clearable maxlength="64"></el-input>
                 </div>
                 <div class="div-padding">
+                    <el-input placeholder="Email Address" v-model="email" :disabled="true" clearable></el-input>
+                </div>
+                <div class="div-padding">
+                    <i class="el-icon-edit"></i>
                     <el-input placeholder="Given Name" v-model="givenName" clearable></el-input>
                 </div>
                 <div class="div-padding">
                     <el-input placeholder="Family Name" v-model="familyName" clearable></el-input>
                 </div>
+                <div class="info description" style="padding-bottom: 5px">
+
+                    <span class="el-icon-info">
+                        Input below tow fields, only when you want to change password!
+                    </span>
+                </div>
                 <div class="div-padding">
-                    <el-input placeholder="Email Address" v-model="email" clearable></el-input>
+                    <el-input placeholder="Current Password" v-model="currentPassword" clearable></el-input>
+                </div>
+                <div class="div-padding">
+                    <el-input placeholder="New Password" v-model="newPassword" clearable></el-input>
                 </div>
                 <div class="div-padding" v-show="isPhotoUploadShow">
                     <el-upload
@@ -32,7 +45,7 @@
                     </el-upload>
                 </div>
                 <div>
-                    <el-button size="small" type="primary"  v-on:click="onSubmitSave()">Save</el-button>
+                    <el-button size="small" type="primary"  v-on:click="onSubmitSave()">Update</el-button>
                 </div>
             </form>
         </div>
@@ -58,6 +71,8 @@
                 givenName: "",
                 familyName: "",
                 email: "",
+                currentPassword: "",
+                newPassword: "",
                 fileList:[]
             }
         },
@@ -148,6 +163,10 @@
         cursor: pointer;
         align-items: center;
         text-decoration: none;
+    }
+    .info.description {
+        font-size: 14px;
+        line-height: 18px;
     }
 
 </style>
