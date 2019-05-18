@@ -76,6 +76,7 @@
             ...mapState(["currentUser"])
         },
         methods: {
+            ...mapActions(['getVenues']),
 
             handleRemove(file, fileList) {
                 console.log(file, fileList);
