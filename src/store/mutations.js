@@ -13,7 +13,12 @@ import {
     CURRENT_USER,
     CATEGORIES,
     SELECTED_CITY,
-    SEARCH_CONTENT
+    SEARCH_CONTENT,
+    SELECTED_CATEGORY,
+    SELECTED_SORT_BY,
+    SELECTED_MIN_STAR,
+    SELECTED_MAX_COST,
+    IS_REVERSE_SORT
 } from './mutations-types'
 
 export default {
@@ -51,10 +56,25 @@ export default {
     [CATEGORIES](state, {categories}){
         state.categories = categories
     },
+    [SEARCH_CONTENT](state, {searchContent}){
+        state.searchContent = searchContent
+    },
     [SELECTED_CITY](state, {selectedCity}){
         state.selectedCity = selectedCity
     },
-    [SEARCH_CONTENT](state, {searchContent}){
-        state.searchContent = searchContent
+    [SELECTED_CATEGORY](state, {selectedCategory}){
+        state.selectedCategory = selectedCategory
+    },
+    [SELECTED_MIN_STAR](state, {selectedMinStar}){
+        state.selectedMinStar = selectedMinStar
+    },
+    [SELECTED_MAX_COST](state, {selectedMaxCost}){
+        state.selectedMaxCost = selectedMaxCost
+    },
+    [SELECTED_SORT_BY](state, {selectedSortBy}){
+        state.selectedSortBy = selectedSortBy
+    },
+    [IS_REVERSE_SORT](state, {isReverseSort}){
+        state.isReverseSort = isReverseSort
     }
 }

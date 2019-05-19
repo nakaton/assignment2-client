@@ -65,14 +65,6 @@
                         :value="item.categoryId">
                     </el-option>
                 </el-select>
-                <el-select v-model="sortBy" placeholder="Sort By" clearable filterable class="searchArea selectList">
-                    <el-option
-                        v-for="item in sortByOptions"
-                        :key="item.sortByKey"
-                        :label="item.sortByName"
-                        :value="item.sortByKey">
-                    </el-option>
-                </el-select>
                 <el-select v-model="minStarRating" placeholder="Min Star" clearable filterable class="searchArea selectList">
                     <el-option
                         v-for="item in minStarOptions"
@@ -89,6 +81,14 @@
                         :value="item.maxCostKey">
                     </el-option>
                 </el-select>
+                <el-select v-model="sortBy" placeholder="Sort By" clearable filterable class="searchArea selectList">
+                    <el-option
+                        v-for="item in sortByOptions"
+                        :key="item.sortByKey"
+                        :label="item.sortByName"
+                        :value="item.sortByKey">
+                    </el-option>
+                </el-select>
                 <el-checkbox v-model="checked">Reverse Sort</el-checkbox>
             </div>
         </div>
@@ -101,8 +101,13 @@
     import {
         CURRENT_USER,
         LOGIN,
+        SEARCH_CONTENT,
         SELECTED_CITY,
-        SEARCH_CONTENT
+        SELECTED_CATEGORY,
+        SELECTED_SORT_BY,
+        SELECTED_MIN_STAR,
+        SELECTED_MAX_COST,
+        IS_REVERSE_SORT
     } from '../../store/mutations-types'
 
 
@@ -131,18 +136,6 @@
                 }],
                 selected: "",
                 category: "",
-                sortBy: "",
-                sortByOptions: [{
-                    sortByKey: 'STAR_RATING',
-                    sortByName: 'Star Rating'
-                },{
-                    sortByKey: 'COST_RATING',
-                    sortByName: 'Cost Rating'
-                },{
-                    sortByKey: 'DISTANCE',
-                    sortByName: 'Distance'
-                }],
-                checked: false,
                 minStarRating: "",
                 minStarOptions: [{
                     minStarKey: 1,
@@ -177,11 +170,29 @@
                     maxCostKey: 4,
                     maxCostName: '$$$$'
                 }],
+                sortBy: "",
+                sortByOptions: [{
+                    sortByKey: 'STAR_RATING',
+                    sortByName: 'Star Rating'
+                },{
+                    sortByKey: 'COST_RATING',
+                    sortByName: 'Cost Rating'
+                },{
+                    sortByKey: 'DISTANCE',
+                    sortByName: 'Distance'
+                }],
+                checked: false,
             }
         },
         mounted (){
-            this.selected = this.selectedCity
             this.q = this.searchContent
+            this.selected = this.selectedCity
+            this.category = this.selectedCategory
+            this.minStarRating = this.selectedMinStar
+            this.maxCostRating = this.selectedMaxCost
+            this.sortBy = this.selectedSortBy
+            this.checked = this.isReverseSort
+
             this.getCategories({});
         },
         methods:{
@@ -204,8 +215,28 @@
                 if (this.q){
                     params.q = this.q
                 }
-                this.$store.commit(SELECTED_CITY, {selectedCity: this.selected});
+                if (this.category){
+                    params.categoryId = this.category
+                }
+                if (this.minStarRating){
+                    params.minStarRating = this.minStarRating
+                }
+                if (this.maxCostRating){
+                    params.maxCostRating = this.maxCostRating
+                }
+                if (this.sortBy){
+                    params.sortBy = this.sortBy
+                }
+                if (this.checked){
+                    params.reverseSort = this.checked
+                }
                 this.$store.commit(SEARCH_CONTENT, {searchContent: this.q});
+                this.$store.commit(SELECTED_CITY, {selectedCity: this.selected});
+                this.$store.commit(SELECTED_CATEGORY, {selectedCategory: this.category});
+                this.$store.commit(SELECTED_MIN_STAR, {selectedMinStar: this.minStarRating});
+                this.$store.commit(SELECTED_MAX_COST, {selectedMaxCost: this.maxCostRating});
+                this.$store.commit(SELECTED_SORT_BY, {selectedSortBy: this.sortBy});
+                this.$store.commit(IS_REVERSE_SORT, {isReverseSort: this.checked});
                 params.pageSize = this.pageSize
                 this.$parent.getVenues(params);
                 this.$parent.showVenues = true;
@@ -229,9 +260,14 @@
             ...mapState(["login"]),
             ...mapState(["pageSize"]),
             ...mapState(["currentUser"]),
-            ...mapState(["selectedCity"]),
-            ...mapState(["searchContent"]),
             ...mapState(["categories"]),
+            ...mapState(["searchContent"]),
+            ...mapState(["selectedCity"]),
+            ...mapState(["selectedCategory"]),
+            ...mapState(["selectedSortBy"]),
+            ...mapState(["selectedMinStar"]),
+            ...mapState(["selectedMaxCost"]),
+            ...mapState(["isReverseSort"]),
         }
     }
 </script>
