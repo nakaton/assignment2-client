@@ -1,6 +1,6 @@
 export default {
     login: false,
-    pageSize: 12,
+    pageSize: 10,
     selectedCity: "",
     searchContent: "",
     pageLoading: true,

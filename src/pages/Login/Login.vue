@@ -88,19 +88,23 @@
             ...mapActions(['userRegister']),
 
             onSubmitUserRegister: function () {
-                this.userRegister({
-                    username: this.username,
-                    email: this.email,
-                    givenName: this.givenName,
-                    familyName: this.familyName,
-                    password: this.password
-                }).then(data => {
-                    // resolve(response.data)
-                    //After successfully register, auto login
-                    this.onSubmitUserLogin()
-                }).catch(error => {
-                    alert(error.response.status + " : " + error.response.statusText)
-                });
+                if(this.password == this.passwordConfirm){
+                    this.userRegister({
+                        username: this.username,
+                        email: this.email,
+                        givenName: this.givenName,
+                        familyName: this.familyName,
+                        password: this.password
+                    }).then(data => {
+                        // resolve(response.data)
+                        //After successfully register, auto login
+                        this.onSubmitUserLogin()
+                    }).catch(error => {
+                        alert(error.response.status + " : " + error.response.statusText)
+                    });
+                } else {
+                    alert("Please input same password between 'Password' and 'Password Confirm'.")
+                }
             },
             onSubmitUserLogin: function () {
                 this.userLogin({
