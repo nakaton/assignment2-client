@@ -18,7 +18,8 @@ import {
     uploadUserPhoto,
     deleteUserPhoto,
     postVenuesPhoto,
-    deleteVenuesPhoto
+    deleteVenuesPhoto,
+    setVenuesPrimaryPhoto
 } from '../api/api'
 
 import {
@@ -56,7 +57,7 @@ export default {
                 result[i].src = 'src/pages/Venues/images/default.png'
             }
 
-            // Get Category name
+            // Get venue detail info
             if (result[i].venueId) {
                 let venueDetail = await reqVenueDetail(result[i].venueId);
                 result[i].categoryName = venueDetail.category.categoryName;
@@ -67,7 +68,9 @@ export default {
                 for(let j =0; j< venueDetail.photos.length; j++) {
                     const name = venueDetail.photos[j].photoFilename;
                     const url = BASE_URL + '/venues/' + result[i].venueId + '/photos/' + venueDetail.photos[j].photoFilename;
-                    photos.push({name: name, url: url})
+                    const photoDescription = venueDetail.photos[j].photoDescription
+                    const isPrimary = venueDetail.photos[j].isPrimary
+                    photos.push({name: name, url: url, photoDescription: photoDescription, isPrimary: isPrimary})
                 }
                 result[i].photos = photos
 
@@ -393,6 +396,24 @@ export default {
             const header = params.header
 
             const result = await deleteVenuesPhoto(venueId, photoFilename, header)
+        }catch (e) {
+            console.log(e)
+            throw e
+        }
+    },
+
+    /**
+     * Set a photo as the primary one for this venue.
+     * @param commit
+     * @returns {Promise<void>}
+     */
+    async setVenuesPrimaryPhoto({commit}, params) {
+        try {
+            const venueId = params.venueId
+            const photoFilename = params.photoFilename
+            const header = params.header
+
+            const result = await setVenuesPrimaryPhoto(venueId, photoFilename, header)
         }catch (e) {
             console.log(e)
             throw e

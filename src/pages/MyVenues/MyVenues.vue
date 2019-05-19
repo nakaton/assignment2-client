@@ -107,9 +107,11 @@
                     <el-input style="display: flex; padding-right: 10px" placeholder="Latitude" v-model="latitude" clearable></el-input>
                     <el-input placeholder="Longitude" v-model="longitude" clearable></el-input>
                 </div>
+
                 <div class="div-padding" v-show="isPhotoUploadShow">
                     <el-upload
                         :action="venuePhotoUploadUrl"
+                        :on-preview="handlePreview"
                         :on-remove="handleRemove"
                         :file-list="fileList"
                         list-type="picture-card"
@@ -120,6 +122,21 @@
                 </div>
                 <div>
                     <el-button size="small" type="primary"  v-on:click="onSubmitSave()">Save</el-button>
+                </div>
+
+                <div>
+                    <el-dialog
+                        :visible.sync="isPhotoSettingShow"
+                        title="Make Primary"
+                        width="50%">
+
+                        <div class="div-padding">
+                            <span class="el-icon-info">Set photo as the primary one for this venue?&nbsp;&nbsp;</span>
+                        </div>
+                        <div>
+                            <el-button size="small" type="primary"  v-on:click="onSubmitSetPrimary()">Confirm</el-button>
+                        </div>
+                    </el-dialog>
                 </div>
             </form>
         </div>
@@ -143,6 +160,7 @@
                 isListShow: true,
                 isDetailShow: false,
                 isPhotoUploadShow: false,
+                isPhotoSettingShow: false,
                 venuePhotoUploadUrl: "",
                 options: [{
                     value: 'Christchurch',
@@ -167,7 +185,7 @@
                 latitude: "",
                 longitude: "",
                 photoDescription: "",
-                makePrimary: false,
+                photoFilename: "",
                 fileList:[]
             }
         },
@@ -201,6 +219,7 @@
             ...mapActions(['addVenue']),
             ...mapActions(['uploadVenuePhoto']),
             ...mapActions(['deleteVenuePhoto']),
+            ...mapActions(['setVenuesPrimaryPhoto']),
 
             forceRefresh: function () {
                 this.isListShow = false
@@ -208,8 +227,12 @@
                     this.isListShow = true
                 });
             },
+            handlePreview(file) {
+                console.log(file);
+                this.isPhotoSettingShow = true
+                this.photoFilename = file.name
+            },
             handleRemove(file, fileList) {
-                alert("remove")
                 let header = {headers: {'X-Authorization':this.currentUser.UserToken}}
                 let params = {
                     header: header,
@@ -230,6 +253,8 @@
 
             },
             venuePhotoUpload: function (options) {
+                // alert(2)
+                // alert(this.photoDescription)
                 let file = options.file
                 let fileName = file.name
 
@@ -269,6 +294,7 @@
                 this.address = ""
                 this.latitude = ""
                 this.longitude = ""
+                this.photoDescription = ""
             },
             editVenue: function (item) {
                 this.isDetailShow = true
@@ -284,6 +310,7 @@
                 this.latitude = item.latitude
                 this.longitude = item.longitude
                 this.fileList = item.photos
+                this.photoDescription = ""
             },
             onSubmitSave: function () {
                 let header = {headers: {'X-Authorization':this.currentUser.UserToken}}
@@ -327,6 +354,27 @@
                         alert(error.response.status + " : " + error.response.statusText)
                     })
                 }
+            },
+            onSubmitSetPrimary: function () {
+                this.isPhotoSettingShow = false
+
+                let header = {headers: {'X-Authorization':this.currentUser.UserToken}}
+                let params = {
+                    header: header,
+                    venueId: this.venueId,
+                    photoFilename: this.photoFilename
+                };
+                this.setVenuesPrimaryPhoto(params).then(data =>{
+                    let params = {}
+                    params.adminId = this.currentUser.UserId
+                    params.pageSize = 100 //No need to change page, so set as 100
+                    this.getVenues(params).then(data=>{
+                        this.photoFilename = ""
+                        this.forceRefresh()
+                    })
+                }).catch(error =>{
+                    alert(error.response.status + " : " + error.response.statusText)
+                })
             }
         },
         components:{
@@ -369,7 +417,6 @@
         font-size: 16px;
         line-height: 24px;
     }
-
     .info {
         color: #484848;
         word-wrap: break-word;

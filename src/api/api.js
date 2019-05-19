@@ -80,8 +80,8 @@ export const deleteVenuesPhoto = function (venueId, photoFilename, header) {
  * @param venueId
  * @param photoFilename
  */
-export const setVenuesPrimaryPhoto = function (venueId, photoFilename) {
-    return ajax(base_url + '/venues/' + venueId + '/photos/' + photoFilename + 'setPrimary', {}, 'POST')
+export const setVenuesPrimaryPhoto = function (venueId, photoFilename, header) {
+    return ajax(base_url + '/venues/' + venueId + '/photos/' + photoFilename + '/setPrimary', {}, 'POST', header)
 }
 
 
