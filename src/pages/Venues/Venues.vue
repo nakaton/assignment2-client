@@ -69,22 +69,22 @@
         mounted (){
             let params = {}
             params.pageSize = this.pageSize
-            if(this.searchContent != ""){
+            if(this.searchContent != "" && this.searchContent != undefined){
                 params.q = this.searchContent
             }
-            if(this.selectedCity != ""){
+            if(this.selectedCity != "" && this.selectedCity != undefined){
                 params.city = this.selectedCity
             }
-            if(this.selectedCategory != ""){
+            if(this.selectedCategory != "" && this.selectedCategory != undefined){
                 params.categoryId = this.selectedCategory
             }
-            if(this.selectedMinStar != ""){
+            if(this.selectedMinStar != "" && this.selectedMinStar != undefined){
                 params.minStarRating = this.selectedMinStar
             }
-            if(this.selectedMaxCost != ""){
+            if(this.selectedMaxCost != "" && this.selectedMaxCost != undefined){
                 params.maxCostRating = this.selectedMaxCost
             }
-            if(this.selectedSortBy != ""){
+            if(this.selectedSortBy != "" && this.selectedSortBy != undefined){
                 params.sortBy = this.selectedSortBy
             }
             if(this.isReverseSort == true){
@@ -95,7 +95,6 @@
                 // alert("true")
                 this.$store.commit(LOGIN, {login: true});
             }
-            // this.$router.push('/venues');
         },
         computed:{
             ...mapState(["venues"]),
