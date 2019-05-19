@@ -305,6 +305,7 @@ export default {
             const header = params.header
 
             const venueId = await postVenues(params, header)
+            return venueId
         }catch (e) {
             console.log(e)
             throw e

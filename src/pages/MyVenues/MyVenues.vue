@@ -358,7 +358,8 @@
                     this.addVenue(params).then(data =>{
                         alert("Venue add successfully.")
 
-                        this.isDetailShow = false
+                        this.isPhotoUploadShow = true
+                        this.venueId = data.venueId
                         //Set latest data into screen
                         let params = {}
                         params.adminId = this.currentUser.UserId
