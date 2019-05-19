@@ -3,11 +3,14 @@
         <div id="toolBar">
             <div>
                 <form>
-                    <div class="searchBar">
-                        <el-button :icon="iconControl" v-on:click="showFilterBar"></el-button>
+                    <div class="searchBar" style="padding-left: 33px">
                         <el-input placeholder=" Search Content" v-model="q" class="searchArea searchBox">
                             <el-button slot="append" icon="el-icon-search" v-on:click="onSubmit"></el-button>
                         </el-input>
+                        <div class="searchBar" style="padding-left: 5px;">
+                            <el-button :icon="iconControl" v-on:click="showFilterBar" class="searchArea up-down-button"></el-button>
+                        </div>
+                        <!--<el-button :icon="iconControl" v-on:click="showFilterBar"></el-button>-->
                         <!--<input type="search" v-model="q" placeholder=" Search Content" class="searchArea searchBox">-->
                         <!--<input type="submit" v-on:click="onSubmit" style="visibility: hidden">-->
                     </div>
@@ -262,7 +265,8 @@
         width: 400px !important;
     }
     #toolBar{
-        padding-top: 7px;
+        padding-top: 4px;
+        padding-bottom: 4px;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -317,5 +321,12 @@
         cursor: pointer;
         align-items: center;
         text-decoration: none;
+    }
+    .up-down-button {
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+        width: 20px;
+        height: 40px;
+        margin: 0;
+        padding: 0 10px 0 0;
     }
 </style>
