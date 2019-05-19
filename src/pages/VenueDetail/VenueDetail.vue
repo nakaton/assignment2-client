@@ -80,11 +80,11 @@
                     </div>
                     <div class="div-padding" style="display: flex; align-items: center">
                         <el-tag type="info" size="medium">Star Rate :</el-tag>
-                        <span>&nbsp</span>
+                        <span>&nbsp;</span>
                         <el-rate
                             v-model="starRating">
                         </el-rate>
-                        <span>&nbsp&nbsp&nbsp</span>
+                        <span>&nbsp;&nbsp;&nbsp;</span>
                         <el-tag type="info" size="medium">Cost Rate :</el-tag>
                         <span>&nbsp</span>
                         <el-input-number size="mini" :min="0" :max="4" :step="1" step-strictly v-model="costRating"></el-input-number>
