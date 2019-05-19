@@ -264,9 +264,9 @@
             ...mapState(["searchContent"]),
             ...mapState(["selectedCity"]),
             ...mapState(["selectedCategory"]),
-            ...mapState(["selectedSortBy"]),
             ...mapState(["selectedMinStar"]),
             ...mapState(["selectedMaxCost"]),
+            ...mapState(["selectedSortBy"]),
             ...mapState(["isReverseSort"]),
         }
     }

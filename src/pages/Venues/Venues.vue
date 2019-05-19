@@ -69,11 +69,26 @@
         mounted (){
             let params = {}
             params.pageSize = this.pageSize
+            if(this.searchContent != ""){
+                params.q = this.searchContent
+            }
             if(this.selectedCity != ""){
                 params.city = this.selectedCity
             }
-            if(this.searchContent != ""){
-                params.q = this.searchContent
+            if(this.selectedCategory != ""){
+                params.categoryId = this.selectedCategory
+            }
+            if(this.selectedMinStar != ""){
+                params.minStarRating = this.selectedMinStar
+            }
+            if(this.selectedMaxCost != ""){
+                params.maxCostRating = this.selectedMaxCost
+            }
+            if(this.selectedSortBy != ""){
+                params.sortBy = this.selectedSortBy
+            }
+            if(this.isReverseSort == true){
+                params.reverseSort = this.isReverseSort
             }
             this.getVenues(params);
             if(localStorage.getItem("isLogin") == 'true'){
@@ -87,8 +102,13 @@
             ...mapState(["pageSize"]),
             ...mapState(["currentPageVenues"]),
             ...mapState(["pageLoading"]),
+            ...mapState(["searchContent"]),
             ...mapState(["selectedCity"]),
-            ...mapState(["searchContent"])
+            ...mapState(["selectedCategory"]),
+            ...mapState(["selectedMinStar"]),
+            ...mapState(["selectedMaxCost"]),
+            ...mapState(["selectedSortBy"]),
+            ...mapState(["isReverseSort"]),
         },
         methods: {
             ...mapActions(['getVenues']),
