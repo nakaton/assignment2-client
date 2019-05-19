@@ -1,61 +1,93 @@
 <template>
-    <div id="toolBar">
-        <div>
-            <form>
-                <div class="searchBar">
-                    <el-select v-model="selected" filterable class="searchArea selectList">
-                        <el-option
-                            v-for="item in options"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                        </el-option>
-                    </el-select>
-                    <!--<select v-model="selected" class="searchArea selectList">-->
-                        <!--<option value="">All Cities</option>-->
-                        <!--<option value="Christchurch">Christchurch</option>-->
-                        <!--<option value="New York">New York</option>-->
-                        <!--<option value="London">London</option>-->
-                        <!--<option value="Shanghai">Shanghai</option>-->
-                    <!--</select>-->
-                </div>
-                <div class="searchBar">
-                    <el-input placeholder=" Search Content" v-model="q" class="searchArea searchBox">
-                        <el-button slot="append" icon="el-icon-search" v-on:click="onSubmit"></el-button>
-                    </el-input>
-                    <!--<input type="search" v-model="q" placeholder=" Search Content" class="searchArea searchBox">-->
-                    <!--<input type="submit" v-on:click="onSubmit" style="visibility: hidden">-->
-                </div>
-            </form>
-        </div>
-        <div id="loginBar">
-            <ul v-if="login">
-                <li>
-                    <router-link :to="{ name : 'myVenues'}">
-                        <a>My Venue</a>
-                    </router-link>
-                </li>
-                <li>
-                    <router-link :to="{ name : 'myProfile'}">
-                        <a>My Profile</a>
-                    </router-link>
-                </li>
-                <li>
-                    <a v-on:click="onClickLogout">Log Out</a>
-                </li>
-                <li>
-                    <div  style="border-radius: 50%; width: 40px; height: 40px; ">
-                        <img :src="currentUser.UserPhoto" style="border-radius: 50%; width: 40px; height: 40px; display: flex;border: 2px solid #EBEBEB"/>
+    <div>
+        <div id="toolBar">
+            <div>
+                <form>
+                    <div class="searchBar">
+                        <el-button :icon="iconControl" v-on:click="showFilterBar"></el-button>
+                        <el-input placeholder=" Search Content" v-model="q" class="searchArea searchBox">
+                            <el-button slot="append" icon="el-icon-search" v-on:click="onSubmit"></el-button>
+                        </el-input>
+                        <!--<input type="search" v-model="q" placeholder=" Search Content" class="searchArea searchBox">-->
+                        <!--<input type="submit" v-on:click="onSubmit" style="visibility: hidden">-->
                     </div>
-                </li>
-            </ul>
-            <ul v-else>
-                <li>
-                    <router-link :to="{ name : 'login'}">
-                        <a>Login</a>
-                    </router-link>
-                </li>
-            </ul>
+                </form>
+            </div>
+            <div id="loginBar">
+                <ul v-if="login">
+                    <li>
+                        <router-link :to="{ name : 'myVenues'}">
+                            <a>My Venue</a>
+                        </router-link>
+                    </li>
+                    <li>
+                        <router-link :to="{ name : 'myProfile'}">
+                            <a>My Profile</a>
+                        </router-link>
+                    </li>
+                    <li>
+                        <a v-on:click="onClickLogout">Log Out</a>
+                    </li>
+                    <li>
+                        <div  style="border-radius: 50%; width: 40px; height: 40px; ">
+                            <img :src="currentUser.UserPhoto" style="border-radius: 50%; width: 40px; height: 40px; display: flex;border: 2px solid #EBEBEB"/>
+                        </div>
+                    </li>
+                </ul>
+                <ul v-else>
+                    <li>
+                        <router-link :to="{ name : 'login'}">
+                            <a>Login</a>
+                        </router-link>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div id="filterBar" v-if="isFilterBarShow">
+            <div class="searchBar">
+                <el-select v-model="selected" filterable class="searchArea selectCityList">
+                    <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                    </el-option>
+                </el-select>
+
+                <el-select v-model="category" placeholder="Category" clearable filterable class="searchArea selectList">
+                    <el-option
+                        v-for="item in categories"
+                        :key="item.categoryId"
+                        :label="item.categoryName"
+                        :value="item.categoryId">
+                    </el-option>
+                </el-select>
+                <el-select v-model="sortBy" placeholder="Sort By" clearable filterable class="searchArea selectList">
+                    <el-option
+                        v-for="item in sortByOptions"
+                        :key="item.sortByKey"
+                        :label="item.sortByName"
+                        :value="item.sortByKey">
+                    </el-option>
+                </el-select>
+                <el-select v-model="minStarRating" placeholder="Min Star" clearable filterable class="searchArea selectList">
+                    <el-option
+                        v-for="item in minStarOptions"
+                        :key="item.minStarKey"
+                        :label="item.minStarName"
+                        :value="item.minStarKey">
+                    </el-option>
+                </el-select>
+                <el-select v-model="maxCostRating" placeholder="Max Cost" clearable filterable class="searchArea selectList">
+                    <el-option
+                        v-for="item in maxCostOptions"
+                        :key="item.maxCostKey"
+                        :label="item.maxCostName"
+                        :value="item.maxCostKey">
+                    </el-option>
+                </el-select>
+                <el-checkbox v-model="checked">Reverse Sort</el-checkbox>
+            </div>
         </div>
     </div>
 </template>
@@ -75,6 +107,8 @@
         name: "Search",
         data (){
             return{
+                isFilterBarShow: false,
+                iconControl: 'el-icon-arrow-down',
                 q:"",
                 options: [{
                     value: '',
@@ -92,16 +126,73 @@
                     value: 'Shanghai',
                     label: 'Shanghai'
                 }],
-                selected: ""
+                selected: "",
+                category: "",
+                sortBy: "",
+                sortByOptions: [{
+                    sortByKey: 'STAR_RATING',
+                    sortByName: 'Star Rating'
+                },{
+                    sortByKey: 'COST_RATING',
+                    sortByName: 'Cost Rating'
+                },{
+                    sortByKey: 'DISTANCE',
+                    sortByName: 'Distance'
+                }],
+                checked: false,
+                minStarRating: "",
+                minStarOptions: [{
+                    minStarKey: 1,
+                    minStarName: 'Star 1'
+                },{
+                    minStarKey: 2,
+                    minStarName: 'Star 2'
+                },{
+                    minStarKey: 3,
+                    minStarName: 'Star 3'
+                },{
+                    minStarKey: 4,
+                    minStarName: 'Star 4'
+                },{
+                    minStarKey: 5,
+                    minStarName: 'Star 5'
+                }],
+                maxCostRating: "",
+                maxCostOptions: [{
+                    maxCostKey: 0,
+                    maxCostName: 'Free'
+                },{
+                    maxCostKey: 1,
+                    maxCostName: '$'
+                },{
+                    maxCostKey: 2,
+                    maxCostName: '$$'
+                },{
+                    maxCostKey: 3,
+                    maxCostName: '$$$'
+                },{
+                    maxCostKey: 4,
+                    maxCostName: '$$$$'
+                }],
             }
         },
         mounted (){
             this.selected = this.selectedCity
             this.q = this.searchContent
+            this.getCategories({});
         },
         methods:{
             ...mapActions(['userLogout']),
+            ...mapActions(['getCategories']),
 
+            showFilterBar: function () {
+                this.isFilterBarShow = !this.isFilterBarShow
+                if (this.isFilterBarShow) {
+                    this.iconControl = 'el-icon-arrow-up'
+                }else{
+                    this.iconControl = 'el-icon-arrow-down'
+                }
+            },
             onSubmit: function () {
                 let params = {}
                 if (this.selected){
@@ -136,7 +227,8 @@
             ...mapState(["pageSize"]),
             ...mapState(["currentUser"]),
             ...mapState(["selectedCity"]),
-            ...mapState(["searchContent"])
+            ...mapState(["searchContent"]),
+            ...mapState(["categories"]),
         }
     }
 </script>
@@ -159,7 +251,11 @@
         font-family: 'Open Sans';
     }
     .selectList {
-        width: 150px !important;
+        width: 110px !important;
+        margin: 0 10px 10px 0 !important;
+    }
+    .selectCityList {
+        width: 110px !important;
         margin: 0 10px 10px 33px !important;
     }
     .searchBox {
@@ -177,6 +273,20 @@
         position: fixed;
         left: 0px !important;
         top: 0px !important;
+        z-index: 99;
+    }
+    #filterBar{
+        padding-top: 7px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-decoration: none;
+        box-shadow:0px 15px 10px -15px #ccc;
+        background-color: #ffffff !important;
+        width: 100%;
+        position: fixed;
+        left: 0px !important;
+        top: 57px !important;
         z-index: 99;
     }
     .searchBar {
