@@ -53,7 +53,7 @@
                     </div>
                     <div class="info description cost-div">
                         <el-tag type="success" size="mini">Cost Rate :</el-tag>
-                        <span style="color: #484848;">{{this.currentVenueDetail.modeCostRating || 0.0}} $</span>
+                        <span style="color: #ff9900;">{{this.currentVenueDetail.modeCostRating || 'Free'}}</span>
                     </div>
                 </div>
                 <div style="padding-top: 10px; padding-bottom: 5px" class="info description">
@@ -163,7 +163,7 @@
                             </div>
                             <div class="info description cost-div">
                                 <span>Cost Rate:</span>
-                                <span style="color: #484848;">{{review.costRating || 0.0}} $</span>
+                                <span style="color: #ff9900;">{{review.costRating || 'Free'}}</span>
                             </div>
                         </div>
                         <hr>

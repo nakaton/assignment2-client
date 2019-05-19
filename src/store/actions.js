@@ -57,6 +57,27 @@ export default {
                 result[i].src = 'src/pages/Venues/images/default.png'
             }
 
+            // Translate Cost Rating
+            switch (result[i].modeCostRating) {
+                case 0:
+                    result[i].modeCostRating = "Free"
+                    break
+                case 1:
+                    result[i].modeCostRating = "$"
+                    break
+                case 2:
+                    result[i].modeCostRating = "$$"
+                    break
+                case 3:
+                    result[i].modeCostRating = "$$$"
+                    break
+                case 4:
+                    result[i].modeCostRating = "$$$$"
+                    break
+                default:
+                    result[i].modeCostRating = "Free"
+            }
+
             // Get venue detail info
             if (result[i].venueId) {
                 let venueDetail = await reqVenueDetail(result[i].venueId);
@@ -135,6 +156,28 @@ export default {
             }catch (e) {
                 venueReviews[i].userPhotoSrc = 'src/pages/Venues/images/default.png';
             }
+
+            // Translate Cost Rating
+            switch (venueReviews[i].costRating) {
+                case 0:
+                    venueReviews[i].costRating = "Free"
+                    break
+                case 1:
+                    venueReviews[i].costRating = "$"
+                    break
+                case 2:
+                    venueReviews[i].costRating = "$$"
+                    break
+                case 3:
+                    venueReviews[i].costRating = "$$$"
+                    break
+                case 4:
+                    venueReviews[i].costRating = "$$$$"
+                    break
+                default:
+                    venueReviews[i].costRating = "Free"
+            }
+
             //Get Reviewer Profile
             try{
                 let header = {

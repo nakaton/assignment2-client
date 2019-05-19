@@ -40,7 +40,7 @@
                             </div>
                             <div class="info description cost-div">
                                 Cost Rate:
-                                <span style="color: #ff9900;">{{item.modeCostRating || 0.0}} $</span>
+                                <span style="color: #ff9900;">{{item.modeCostRating || 'Free'}}</span>
                             </div>
                         </div>
                     </div>

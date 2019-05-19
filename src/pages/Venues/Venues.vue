@@ -32,7 +32,7 @@
                                         </div>
                                         <div class="info description cost-div">
                                             Cost Rate:
-                                            <span style="color: #ff9900;">{{item.modeCostRating || 0.0}} $</span>
+                                            <span style="color: #ff9900;">{{item.modeCostRating || 'Free'}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -134,7 +134,7 @@
     .listing-summaries {
         display: grid;
         grid-gap: 30px;
-        grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
         /*grid-template-rows: 260px 260px 260px 260px;*/
         margin: 0px;
         padding: 0 25px;
@@ -151,7 +151,7 @@
         text-decoration: none;
     }
     .thumbnail {
-        width: 270px;
+        width: 275px;
         height: 195px;
         background-size: cover;
         background-position: 50%;
@@ -159,7 +159,7 @@
     }
 
     .wrapper {
-        max-width: 270px;
+        max-width: 275px;
         display: block;
     }
     .info.title {
