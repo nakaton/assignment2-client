@@ -7,7 +7,7 @@
                 <div class="listing-summaries" style="transform: translateX(0px)">
                     <div class="listing-summary" v-for="item in this.currentPageVenues">
                         <router-link :to="{name : 'venueDetail', params:{venueId: item.venueId}}">
-                            <a v-on:click="onRouterLinkClick(item.venueId, item.meanStarRating, item.modeCostRating)">
+                            <a v-on:click="onRouterLinkClick(item.venueId, item.meanStarRating, item.modeCostRating, item.distance)">
                                 <div class="wrapper">
                                     <div id="photo" class="thumbnail">
                                         <img :src='item.src' class="thumbnail"/>
@@ -34,6 +34,10 @@
                                             Cost Rate:
                                             <span style="color: #ff9900;">{{item.modeCostRating || 'Free'}}</span>
                                         </div>
+                                    </div>
+                                    <div class="info description el-icon-bicycle" style="float: left;">
+                                        /Distance (km):
+                                        <span style="color: #ff9900;">{{item.distance || 'Not Available'}} </span>
                                     </div>
                                 </div>
                             </a>
@@ -90,6 +94,13 @@
             if(this.isReverseSort == true){
                 params.reverseSort = this.isReverseSort
             }
+
+            // If User location is available, calculate distance
+            if(localStorage.getItem("longitude") != undefined && localStorage.getItem("longitude") != ""){
+                params.myLatitude = localStorage.getItem("latitude")
+                params.myLongitude = localStorage.getItem("longitude")
+            }
+
             this.getVenues(params);
             if(localStorage.getItem("isLogin") == 'true'){
                 // alert("true")
@@ -113,9 +124,10 @@
             ...mapActions(['getVenues']),
             ...mapActions(['getVenueDetail']),
 
-            onRouterLinkClick: function (venueId, meanStarRating, modeCostRating) {
+            onRouterLinkClick: function (venueId, meanStarRating, modeCostRating, distance) {
                 this.showVenues = false
-                this.getVenueDetail({id: venueId, meanStarRating: meanStarRating, modeCostRating: modeCostRating});
+                this.getVenueDetail({id: venueId, meanStarRating: meanStarRating,
+                    modeCostRating: modeCostRating, distance: distance});
             }
         },
         components:{

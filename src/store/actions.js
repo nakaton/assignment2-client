@@ -57,6 +57,11 @@ export default {
                 result[i].src = 'src/pages/Venues/images/default.png'
             }
 
+            //Distance
+            if(result[i].distance != "" && result[i].distance != undefined) {
+                result[i].distance = result[i].distance.toFixed(2)
+            }
+
             // Translate Cost Rating
             switch (result[i].modeCostRating) {
                 case 0:
@@ -126,12 +131,15 @@ export default {
         const venueId = params.id;
         const starRate = params.meanStarRating;
         const costRate = params.modeCostRating;
+        const distance = params.distance;
+
         const venueDetail = await reqVenueDetail(venueId);
 
         if (venueDetail){
             venueDetail.venueId = venueId;
             venueDetail.meanStarRating = starRate;
             venueDetail.modeCostRating = costRate;
+            venueDetail.distance = distance;
 
             for (let i = 0; i < venueDetail.photos.length; i++) {
                 // Get photo's link

@@ -86,7 +86,8 @@
                         v-for="item in sortByOptions"
                         :key="item.sortByKey"
                         :label="item.sortByName"
-                        :value="item.sortByKey">
+                        :value="item.sortByKey"
+                        :disabled="item.disabled">
                     </el-option>
                 </el-select>
                 <el-checkbox v-model="checked">Reverse Sort</el-checkbox>
@@ -179,12 +180,18 @@
                     sortByName: 'Cost Rating'
                 },{
                     sortByKey: 'DISTANCE',
-                    sortByName: 'Distance'
+                    sortByName: 'Distance',
+                    disabled: true
                 }],
                 checked: false,
             }
         },
         mounted (){
+            // Judge whether sort by distant is available or not
+            if(localStorage.getItem("longitude") != undefined && localStorage.getItem("longitude") != ""){
+                this.sortByOptions[2].disabled = false
+            }
+
             this.q = this.searchContent
             this.selected = this.selectedCity
             this.category = this.selectedCategory
@@ -230,6 +237,16 @@
                 if (this.checked){
                     params.reverseSort = this.checked
                 }
+                // If User location is available, calculate distance
+                if(localStorage.getItem("longitude") != undefined && localStorage.getItem("longitude") != ""){
+                    params.myLatitude = localStorage.getItem("latitude")
+                    params.myLongitude = localStorage.getItem("longitude")
+                }else{
+                    if(params.sortBy == 'DISTANCE'){
+                        params.sortBy = 'STAR_RATING'
+                    }
+                }
+
                 this.$store.commit(SEARCH_CONTENT, {searchContent: this.q});
                 this.$store.commit(SELECTED_CITY, {selectedCity: this.selected});
                 this.$store.commit(SELECTED_CATEGORY, {selectedCategory: this.category});
@@ -302,7 +319,7 @@
     }
     #toolBar{
         padding-top: 4px;
-        padding-bottom: 4px;
+        padding-bottom: 6px;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -316,7 +333,7 @@
         z-index: 99;
     }
     #filterBar{
-        padding-top: 7px;
+        padding-top: 5px;
         display: flex;
         justify-content: space-between;
         align-items: center;

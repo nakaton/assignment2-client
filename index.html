@@ -7,5 +7,54 @@
   <body>
     <div id="app"></div>
     <script src="/dist/build.js"></script>
+    <script src="http://api.map.baidu.com/api?v=1.2" type="text/javascript"></script>
+    <script>
+        function getLocation(){
+            let options={
+                enableHighAccuracy:true,
+                maximumAge:1000
+            }
+            if(navigator.geolocation){
+                //Browser support geolocation
+                navigator.geolocation.getCurrentPosition(onSuccess,onError,options);
+            }else{
+                //Browser don't support geolocation
+                alert('Your browser does not support geolocation');
+            }
+        }
+        //On Success
+        function onSuccess(position){
+            //Return user location
+            //Longitude
+            let longitude =position.coords.longitude;
+            //Latitude
+            let latitude = position.coords.latitude;
+            localStorage.setItem("longitude", longitude);
+            localStorage.setItem("latitude", latitude);
+            // alert('Longitude'+localStorage.getItem("longitude")+'，Latitude'+localStorage.getItem("latitude"));
+
+        }
+        //On Failure
+        function onError(error){
+            localStorage.setItem("longitude", "");
+            localStorage.setItem("latitude", "");
+            switch(error.code){
+                case 1:
+                    alert("Position service is blocked.");
+                    break;
+                case 2:
+                    alert("Can not get position temporally.");
+                    break;
+                case 3:
+                    alert("Time out.");
+                    break;
+                case 4:
+                    alert("Unknown error.");
+                    break;
+            }
+        }
+        window.onload=getLocation;
+
+    </script>
   </body>
 </html>

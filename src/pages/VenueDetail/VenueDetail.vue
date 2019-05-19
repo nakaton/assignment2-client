@@ -37,8 +37,10 @@
                     <span class="info description">&nbsp;({{this.currentVenueDetail.category.categoryDescription}})</span>
                 </div>
                 <div style="padding-bottom: 10px">
-                    <span class="info description">{{this.currentVenueDetail.address}}</span>
-                    <span class="info description">&nbsp;&nbsp;({{this.currentVenueDetail.latitude}} , {{this.currentVenueDetail.longitude}})</span>
+                    <span class="info description el-icon-location-information">/{{this.currentVenueDetail.address}}</span>
+                    <span class="info description">&nbsp;&nbsp;({{this.currentVenueDetail.latitude}} , {{this.currentVenueDetail.longitude}})&nbsp;&nbsp;&nbsp;</span>
+                    <span class="info description el-icon-bicycle">/Distance (km):</span>
+                    <span class="info description" style="color: #ff9900;">{{this.currentVenueDetail.distance || 'Not Available'}}</span>
                 </div>
                 <div style="display: flex">
                     <div class="info description star-div">
@@ -87,7 +89,15 @@
                         <span>&nbsp;&nbsp;&nbsp;</span>
                         <el-tag type="info" size="medium">Cost Rate :</el-tag>
                         <span>&nbsp</span>
-                        <el-input-number size="mini" :min="0" :max="4" :step="1" step-strictly v-model="costRating"></el-input-number>
+                        <el-select size="mini" v-model="costRating" placeholder="Cost Rate" clearable filterable>
+                            <el-option
+                                v-for="item in maxCostOptions"
+                                :key="item.maxCostKey"
+                                :label="item.maxCostName"
+                                :value="item.maxCostKey">
+                            </el-option>
+                        </el-select>
+                        <!--<el-input-number size="mini" :min="0" :max="4" :step="1" step-strictly v-model="costRating"></el-input-number>-->
                     </div>
                     <div class="div-padding">
                         <el-input
@@ -188,8 +198,24 @@
                 imageSrc: "",
                 photoDescription: "",
                 starRating: null,
-                costRating: 0,
-                reviewBody: ""
+                costRating: "",
+                reviewBody: "",
+                maxCostOptions: [{
+                    maxCostKey: 0,
+                    maxCostName: 'Free'
+                },{
+                    maxCostKey: 1,
+                    maxCostName: '$'
+                },{
+                    maxCostKey: 2,
+                    maxCostName: '$$'
+                },{
+                    maxCostKey: 3,
+                    maxCostName: '$$$'
+                },{
+                    maxCostKey: 4,
+                    maxCostName: '$$$$'
+                }],
             }
         },
         mounted (){
@@ -203,7 +229,7 @@
                 this.$parent.showVenues = true;
                 this.reviewBody = "";
                 this.starRating = null;
-                this.costRating = 0;
+                this.costRating = "";
             },
             onSubmitSave: function () {
                 let header = {headers: {'Content-Type':'application/json', 'X-Authorization':this.currentUser.UserToken}}
@@ -223,7 +249,7 @@
                     //Refresh screen
                     this.reviewBody = "";
                     this.starRating = null;
-                    this.costRating = 0;
+                    this.costRating = "";
                     this.getVenueDetail({id: this.currentVenueDetail.venueId, meanStarRating: this.currentVenueDetail.meanStarRating, modeCostRating: this.currentVenueDetail.modeCostRating});
                 }).catch(error =>{
                     alert(error.response.status + " : " + error.response.statusText)
