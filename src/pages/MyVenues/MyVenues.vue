@@ -185,6 +185,7 @@
                 latitude: "",
                 longitude: "",
                 photoDescription: "",
+                makePrimary: false,
                 photoFilename: "",
                 fileList:[]
             }
@@ -221,10 +222,16 @@
             ...mapActions(['deleteVenuePhoto']),
             ...mapActions(['setVenuesPrimaryPhoto']),
 
-            forceRefresh: function () {
+            forceRefreshList: function () {
                 this.isListShow = false
                 this.$nextTick(()=>{
                     this.isListShow = true
+                });
+            },
+            forceRefreshDetail: function () {
+                this.isDetailShow = false
+                this.$nextTick(()=>{
+                    this.isDetailShow = true
                 });
             },
             handlePreview(file) {
@@ -245,7 +252,7 @@
                     params.adminId = this.currentUser.UserId
                     params.pageSize = 100 //No need to change page, so set as 100
                     this.getVenues(params).then(data=>{
-                        this.forceRefresh()
+                        this.forceRefreshList()
                     })
                 }).catch(error =>{
                     alert(error.response.status + " : " + error.response.statusText)
@@ -276,7 +283,13 @@
                     params.adminId = this.currentUser.UserId
                     params.pageSize = 100 //No need to change page, so set as 100
                     this.getVenues(params).then(data=>{
-                        this.forceRefresh()
+                        for(let i = 0; i < this.currentPageVenues.length; i++){
+                            if(this.currentPageVenues[i].venueId == this.venueId){
+                                this.fileList = this.currentPageVenues[i].photos
+                            }
+                        }
+                        this.forceRefreshList()
+                        // this.forceRefreshDetail()
                     })
                 }).catch(error => {
                     alert(error.response.status + " : " + error.response.statusText)
@@ -370,7 +383,7 @@
                     params.pageSize = 100 //No need to change page, so set as 100
                     this.getVenues(params).then(data=>{
                         this.photoFilename = ""
-                        this.forceRefresh()
+                        this.forceRefreshList()
                     })
                 }).catch(error =>{
                     alert(error.response.status + " : " + error.response.statusText)
