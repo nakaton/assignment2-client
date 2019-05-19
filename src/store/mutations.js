@@ -11,7 +11,9 @@ import {
     CURRENT_VENUE_REVIEWS,
     LOGIN,
     CURRENT_USER,
-    CATEGORIES
+    CATEGORIES,
+    SELECTED_CITY,
+    SEARCH_CONTENT
 } from './mutations-types'
 
 export default {
@@ -48,5 +50,11 @@ export default {
     },
     [CATEGORIES](state, {categories}){
         state.categories = categories
+    },
+    [SELECTED_CITY](state, {selectedCity}){
+        state.selectedCity = selectedCity
+    },
+    [SEARCH_CONTENT](state, {searchContent}){
+        state.searchContent = searchContent
     }
 }

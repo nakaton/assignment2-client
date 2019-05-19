@@ -10,3 +10,5 @@ export const CURRENT_VENUE_REVIEWS = 'current_venue_reviews' //Reviews for curre
 export const LOGIN = 'login' //login status
 export const CURRENT_USER = 'current_user' //current login user
 export const CATEGORIES = 'categories' //categories
+export const SELECTED_CITY = 'selected_city' //categories
+export const SEARCH_CONTENT = 'search_content' //categories

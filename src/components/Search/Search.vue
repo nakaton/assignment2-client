@@ -65,7 +65,9 @@
     import {mapState} from 'vuex'
     import {
         CURRENT_USER,
-        LOGIN
+        LOGIN,
+        SELECTED_CITY,
+        SEARCH_CONTENT
     } from '../../store/mutations-types'
 
 
@@ -93,6 +95,10 @@
                 selected: ""
             }
         },
+        mounted (){
+            this.selected = this.selectedCity
+            this.q = this.searchContent
+        },
         methods:{
             ...mapActions(['userLogout']),
 
@@ -104,11 +110,13 @@
                 if (this.q){
                     params.q = this.q
                 }
+                this.$store.commit(SELECTED_CITY, {selectedCity: this.selected});
+                this.$store.commit(SEARCH_CONTENT, {searchContent: this.q});
                 params.pageSize = this.pageSize
                 this.$parent.getVenues(params);
                 this.$parent.showVenues = true;
                 this.$parent.currentPageNum = 1;
-                this.$router.push('/venues');
+                this.$router.push({path:'/venues'});
             },
             onClickLogout: function () {
                 if(this.currentUser.UserToken != ""){
@@ -126,7 +134,9 @@
         computed:{
             ...mapState(["login"]),
             ...mapState(["pageSize"]),
-            ...mapState(["currentUser"])
+            ...mapState(["currentUser"]),
+            ...mapState(["selectedCity"]),
+            ...mapState(["searchContent"])
         }
     }
 </script>

@@ -1,6 +1,8 @@
 export default {
     login: false,
     pageSize: 12,
+    selectedCity: "",
+    searchContent: "",
     pageLoading: true,
     groupPageVenues:[],
     currentPageVenues: [],

@@ -67,7 +67,15 @@
             }
         },
         mounted (){
-            this.getVenues({pageSize: this.pageSize});
+            let params = {}
+            params.pageSize = this.pageSize
+            if(this.selectedCity != ""){
+                params.city = this.selectedCity
+            }
+            if(this.searchContent != ""){
+                params.q = this.searchContent
+            }
+            this.getVenues(params);
             if(localStorage.getItem("isLogin") == 'true'){
                 // alert("true")
                 this.$store.commit(LOGIN, {login: true});
@@ -78,7 +86,9 @@
             ...mapState(["venues"]),
             ...mapState(["pageSize"]),
             ...mapState(["currentPageVenues"]),
-            ...mapState(["pageLoading"])
+            ...mapState(["pageLoading"]),
+            ...mapState(["selectedCity"]),
+            ...mapState(["searchContent"])
         },
         methods: {
             ...mapActions(['getVenues']),
