@@ -250,7 +250,8 @@
                     this.reviewBody = "";
                     this.starRating = null;
                     this.costRating = "";
-                    this.getVenueDetail({id: this.currentVenueDetail.venueId, meanStarRating: this.currentVenueDetail.meanStarRating, modeCostRating: this.currentVenueDetail.modeCostRating});
+                    this.getVenueDetail({id: this.currentVenueDetail.venueId, meanStarRating: this.currentVenueDetail.meanStarRating,
+                        modeCostRating: this.currentVenueDetail.modeCostRating, distance: this.currentVenueDetail.distance});
                 }).catch(error =>{
                     alert(error.response.status + " : " + error.response.statusText)
                 })
