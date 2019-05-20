@@ -39,6 +39,10 @@
                 </ul>
                 <ul v-else>
                     <li>
+                        <div  style="border-radius: 50%; width: 40px; height: 40px; ">
+                        </div>
+                    </li>
+                    <li>
                         <router-link :to="{ name : 'login'}">
                             <a>Login</a>
                         </router-link>
