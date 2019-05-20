@@ -112,7 +112,6 @@
             },
 
             handleRemove(file, fileList) {
-                alert("remove")
                 let header = {headers: {'X-Authorization':this.currentUser.UserToken}}
 
                 let params = {
