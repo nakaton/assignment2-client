@@ -308,6 +308,7 @@
                 this.latitude = ""
                 this.longitude = ""
                 this.photoDescription = ""
+                this.fileList = []
             },
             editVenue: function (item) {
                 this.isDetailShow = true
