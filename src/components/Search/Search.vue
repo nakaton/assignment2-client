@@ -229,7 +229,6 @@
                     params.minStarRating = this.minStarRating
                 }
                 if (this.maxCostRating != null && this.maxCostRating != ""){
-                    alert(1)
                     params.maxCostRating = this.maxCostRating
                 }
                 if (this.sortBy){
