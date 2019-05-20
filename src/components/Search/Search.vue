@@ -156,19 +156,19 @@
                 }],
                 maxCostRating: "",
                 maxCostOptions: [{
-                    maxCostKey: 0,
+                    maxCostKey: '0',
                     maxCostName: 'Free'
                 },{
-                    maxCostKey: 1,
+                    maxCostKey: '1',
                     maxCostName: '$'
                 },{
-                    maxCostKey: 2,
+                    maxCostKey: '2',
                     maxCostName: '$$'
                 },{
-                    maxCostKey: 3,
+                    maxCostKey: '3',
                     maxCostName: '$$$'
                 },{
-                    maxCostKey: 4,
+                    maxCostKey: '4',
                     maxCostName: '$$$$'
                 }],
                 sortBy: "",
@@ -228,7 +228,8 @@
                 if (this.minStarRating){
                     params.minStarRating = this.minStarRating
                 }
-                if (this.maxCostRating){
+                if (this.maxCostRating != null && this.maxCostRating != ""){
+                    alert(1)
                     params.maxCostRating = this.maxCostRating
                 }
                 if (this.sortBy){
