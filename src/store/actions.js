@@ -205,7 +205,7 @@ export default {
             }
         }
 
-        venueReviews.sort(keySort('timePosted', false));
+        // venueReviews.sort(keySort('timePosted', false));
 
         commit(CURRENT_VENUE_DETAIL, {currentVenueDetail: venueDetail})
         commit(PAGE_LOADING, {pageLoading: false})
