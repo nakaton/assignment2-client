@@ -116,6 +116,7 @@ export const reqUserPhoto = function (userId) {
  * @param userId
  */
 export const uploadUserPhoto = function (userId, params, header) {
+    console.log("upload user photo >>>");
     return ajax(base_url + '/users/' + userId +'/photo', params, 'PUT', header)
 }
 

@@ -264,10 +264,13 @@
                 // alert(this.photoDescription)
                 let file = options.file
                 let fileName = file.name
+                let photoDescription = this.photoDescription == "" ? this.venueName : this.photoDescription
+                
+                console.log(`photoDescription: ${photoDescription}`);
 
                 let formData = new window.FormData()
                 formData.append('photo', file)
-                formData.append('description', this.photoDescription)
+                formData.append('description', photoDescription)
                 formData.append('makePrimary', this.makePrimary)
 
                 let header = {headers: {'Content-Type':'multipart/form-data', 'X-Authorization':this.currentUser.UserToken}}
