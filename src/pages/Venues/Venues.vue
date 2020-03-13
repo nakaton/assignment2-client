@@ -5,7 +5,7 @@
         <div v-show="showVenues" v-loading="this.pageLoading" style="z-index: 1">
             <div class="listing-summaries-wrapper">
                 <div class="listing-summaries" style="transform: translateX(0px)">
-                    <div class="listing-summary" v-for="item in this.currentPageVenues">
+                    <div class="listing-summary" v-for="item in this.currentPageVenues" v-bind:key="item">
                         <router-link :to="{name : 'venueDetail', params:{venueId: item.venueId}}">
                             <a v-on:click="onRouterLinkClick(item.venueId, item.meanStarRating, item.modeCostRating, item.distance)">
                                 <div class="wrapper">
@@ -195,7 +195,7 @@
         line-height: 18px;
     }
     .star-div {
-        display: inline-block;
+        display: block;
         float: left;
     }
     .cost-div {

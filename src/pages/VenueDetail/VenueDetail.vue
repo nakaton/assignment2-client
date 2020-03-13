@@ -88,7 +88,7 @@
                         </el-rate>
                         <span>&nbsp;&nbsp;&nbsp;</span>
                         <el-tag type="info" size="medium">Cost Rate :</el-tag>
-                        <span>&nbsp</span>
+                        <span>&nbsp;</span>
                         <el-select size="mini" v-model="costRating" placeholder="Cost Rate" clearable filterable>
                             <el-option
                                 v-for="item in maxCostOptions"
@@ -116,7 +116,7 @@
                     <div class="info description">
                         <h3>Reviews</h3>
                     </div>
-                    <div v-for="review in this.currentVenueReviews">
+                    <div v-for="review in this.currentVenueReviews" v-bind:key='review'>
                         <div class="info description" style="padding-bottom: 10px; display: flex">
                             <div style="border-radius: 50%; width: 40px; height: 40px; display: flex">
                                 <img :src="review.userPhotoSrc" style="border-radius: 50%; width: 40px; height: 40px; display: flex"/>
@@ -288,11 +288,11 @@
         font-size: 14px;
     }
     .star-div {
-        display: inline-block;
+        display: block;
         float: left;
     }
     .cost-div {
-        display: inline-block;
+        display: block;
         float: left;
     }
     .venue-detail-container{
