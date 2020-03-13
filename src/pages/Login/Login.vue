@@ -76,9 +76,9 @@
                 errorFlg: false,
                 givenName: "",
                 familyName: "",
-                username: "",
+                username: "superman",
                 email: "",
-                password: "",
+                password: "test",
                 passwordConfirm: "",
                 isRegister: false
             }
