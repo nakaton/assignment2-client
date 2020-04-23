@@ -19,29 +19,31 @@ For detailed explanation on how things work, consult the [docs for vue-loader](h
 
 
 # Demo images
-> Login (User can login or as a visitor)
-![image](https://github.com/nakaton/Web-Computing-Architectures-Client/blob/master/Demo%20image/login.png)
 
-> Register (User can return to login or browsering as a visitor)
-![image](https://github.com/nakaton/Web-Computing-Architectures-Client/blob/master/Demo%20image/register.png)
+## Login (User can login or as a visitor)
+<img src="./demo_image/login.png" width="50%" >
 
-> Search (Search data by various conditions)
->>Search by keyword:
-![image](https://github.com/nakaton/Web-Computing-Architectures-Client/blob/master/Demo%20image/search_1.png)
+## Register (User can return to login or browsering as a visitor)
+<img src="./demo_image/register.png" width="50%" >
 
->>Search by more detail condition:
-![image](https://github.com/nakaton/Web-Computing-Architectures-Client/blob/master/Demo%20image/search_2.png)
+## Search (Search data by various conditions)
 
-> Venue Detail
-![image](https://github.com/nakaton/Web-Computing-Architectures-Client/blob/master/Demo%20image/venue_detail.png)
+### Search by keyword:
+<img src="./demo_image/search_1.png" width="50%" >
 
-> Venue Review (User can review vunue after login)
-![image](https://github.com/nakaton/Web-Computing-Architectures-Client/blob/master/Demo%20image/venue_review.png)
+### Search by more detail condition:
+<img src="./demo_image/search_2.png" width="50%" >
 
-> My Venue (Owner can maintain their own venues)
-![image](https://github.com/nakaton/Web-Computing-Architectures-Client/blob/master/Demo%20image/my_venue_list.png)
-![image](https://github.com/nakaton/Web-Computing-Architectures-Client/blob/master/Demo%20image/my_venue_add.png)
-![image](https://github.com/nakaton/Web-Computing-Architectures-Client/blob/master/Demo%20image/my_venue_edit.png)
+## Venue Detail
+<img src="./demo_image/venue_detail.png" width="50%" >
 
-> My Profile (Registered User can modify their profile)
-![image](https://github.com/nakaton/Web-Computing-Architectures-Client/blob/master/Demo%20image/my_profile.png)
+## Venue Review (User can review vunue after login)
+<img src="./demo_image/venue_review.png" width="50%" >
+
+## My Venue (Owner can maintain their own venues)
+<img src="./demo_image/my_venue_list.png" width="50%" >
+<img src="./demo_image/my_venue_add.png" width="50%" >
+<img src="./demo_image/my_venue_edit.png" width="50%" >
+
+## My Profile (Registered User can modify their profile)
+<img src="./demo_image/my_profile.png" width="50%" >
